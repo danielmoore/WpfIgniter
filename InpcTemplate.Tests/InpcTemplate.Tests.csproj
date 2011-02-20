@@ -54,9 +54,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Shadow Include="Test References\InpcTemplate.accessor" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\InpcTemplate\InpcTemplate.csproj">
       <Project>{D6EFB1A2-D9C0-462D-A496-19F00B59BCD6}</Project>
       <Name>InpcTemplate</Name>

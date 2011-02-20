@@ -4,8 +4,6 @@ using System;
 
 namespace InpcTemplate.Tests
 {
-
-
 	/// <summary>
 	///This is a test class for BindableBaseTest and is intended
 	///to contain all BindableBaseTest Unit Tests
@@ -13,7 +11,7 @@ namespace InpcTemplate.Tests
 	[TestClass()]
 	public class BindableBaseTest
 	{
-		private TestBindableType _sut;
+		static TestBindableType _sut;
 
 		#region Additional test attributes
 		// 
@@ -23,6 +21,7 @@ namespace InpcTemplate.Tests
 		[ClassInitialize()]
 		public static void MyClassInitialize(TestContext testContext)
 		{
+			_sut = new TestBindableType();
 		}
 		//
 		//Use ClassCleanup to run code after all tests in a class have run
@@ -45,59 +44,45 @@ namespace InpcTemplate.Tests
 		//
 		#endregion
 
-
-		internal virtual BindableBase_Accessor CreateBindableBase_Accessor()
+		[TestMethod()]
+		[ExpectedException(typeof(InvalidOperationException))]
+		public void CheckForStackAnalysis()
 		{
-			// TODO: Instantiate an appropriate concrete class.
-			BindableBase_Accessor target = null;
-			return target;
+			_sut.MyBrokenValue = 4;
 		}
 
-		/// <summary>
-		///A test for OnPropertyChanging
-		///</summary>
-		[TestMethod()]
-		[DeploymentItem("InpcTemplate.dll")]
-		public void OnPropertyChangingTest()
+		[TestMethod]
+		public void CanSubscribeToPropertyChanged()
 		{
-			PrivateObject param0 = null; // TODO: Initialize to an appropriate value
-			BindableBase_Accessor target = new BindableBase_Accessor(param0); // TODO: Initialize to an appropriate value
-			string propertyName = string.Empty; // TODO: Initialize to an appropriate value
-			target.OnPropertyChanging(propertyName);
-			Assert.Inconclusive("A method that does not return a value cannot be verified.");
-		}
+			bool propertyChanged = false;
+			var subscription = _sut.SubscribeToPropertyChanged(m => m.MyValue, () => propertyChanged = true);
+			_sut.MyValue = 4;
+			Assert.IsTrue(propertyChanged);
 
-		/// <summary>
-		///A test for OnPropertyChanged
-		///</summary>
-		[TestMethod()]
-		[DeploymentItem("InpcTemplate.dll")]
-		public void OnPropertyChangedTest()
-		{
-			PrivateObject param0 = null; // TODO: Initialize to an appropriate value
-			BindableBase_Accessor target = new BindableBase_Accessor(param0); // TODO: Initialize to an appropriate value
-			string propertyName = string.Empty; // TODO: Initialize to an appropriate value
-			target.OnPropertyChanged(propertyName);
-			Assert.Inconclusive("A method that does not return a value cannot be verified.");
-		}
+			propertyChanged = false;
 
-		/// <summary>
-		///A test for VerifyCallerIsProperty
-		///</summary>
-		[TestMethod()]
-		[DeploymentItem("InpcTemplate.dll")]
-		public void VerifyCallerIsPropertyTest()
-		{
-			PrivateObject param0 = null; // TODO: Initialize to an appropriate value
-			BindableBase_Accessor target = new BindableBase_Accessor(param0); // TODO: Initialize to an appropriate value
-			string propertyName = string.Empty; // TODO: Initialize to an appropriate value
-			target.VerifyCallerIsProperty(propertyName);
-			Assert.Inconclusive("A method that does not return a value cannot be verified.");
+			subscription.Dispose();
+
+			_sut.MyValue = 5;
+
+			Assert.IsFalse(propertyChanged);
 		}
 
 		private class TestBindableType : BindableBase
 		{
+			private int _myValue;
+			public int MyValue
+			{
+				get { return _myValue; }
+				set { SetProperty(ref _myValue, value, "MyValue"); }
+			}
 
+			private int _myBrokenValue;
+			public int MyBrokenValue
+			{
+				get { return _myBrokenValue; }
+				set { SetProperty(ref _myBrokenValue, value, "MyValue"); }
+			}
 		}
 	}
 }
