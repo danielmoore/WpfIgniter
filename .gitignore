@@ -1,0 +1,6 @@
+
+*.suo
+*/bin
+*/obj
+Local.testsettings
+*.vsmdi
