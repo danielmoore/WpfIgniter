@@ -1,7 +1,8 @@
-
+*.user
 *.suo
 */bin
 */obj
-Local.testsettings
+*.testsettings
 *.vsmdi
 TestResults
+_ReSharper.*

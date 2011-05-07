@@ -1,0 +1,13 @@
+﻿<Window x:Class="InpcTemplate.Tests.Live.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        SizeToContent="Height" Width="200"
+        Title="InpcTemplate Tests">
+    <ItemsControl ItemsSource="{Binding Tests}" Margin="10">
+        <ItemsControl.ItemTemplate>
+            <DataTemplate>
+                <Button Content="{Binding TestName}" Command="{Binding RunCommand}"/>
+            </DataTemplate>
+        </ItemsControl.ItemTemplate>
+    </ItemsControl>
+</Window>
