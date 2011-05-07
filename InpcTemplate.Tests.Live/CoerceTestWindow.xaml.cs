@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace InpcTemplate.Tests.Live
+namespace NorthHorizon.Samples.InpcTemplate.Tests.Live
 {
     /// <summary>
     /// Interaction logic for CoerceTestWindow.xaml

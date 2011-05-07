@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace InpcTemplate.Tests.Live
+﻿namespace NorthHorizon.Samples.InpcTemplate.Tests.Live
 {
     public class CoerceTestViewModel : BindableBase
     {

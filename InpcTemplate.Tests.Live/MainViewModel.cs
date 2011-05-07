@@ -3,7 +3,7 @@ using System.Collections;
 using System.Linq;
 using System.Windows;
 
-namespace InpcTemplate.Tests.Live
+namespace NorthHorizon.Samples.InpcTemplate.Tests.Live
 {
     public class MainViewModel
     {

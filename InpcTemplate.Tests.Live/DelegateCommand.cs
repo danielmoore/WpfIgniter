@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace InpcTemplate.Tests.Live
+namespace NorthHorizon.Samples.InpcTemplate.Tests.Live
 {
     public class DelegateCommand : ICommand
     {

@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows;
 
-namespace InpcTemplate
+namespace NorthHorizon.Samples.InpcTemplate
 {
     /// <summary>
     /// Provides a basic implementation for <see cref="INotifyPropertyChanged"/> and <see cref="INotifyPropertyChanging"/>.
@@ -40,7 +40,7 @@ namespace InpcTemplate
 
             if (EqualityComparer<T>.Default.Equals(backingStore, effectiveValue))
             {
-                if (coerceValue != null && !ReferenceEquals(value, effectiveValue))
+                if (coerceValue != null && !EqualityComparer<T>.Default.Equals(value, effectiveValue))
                     PropertyChangedEventManagerProxy.Instance.RaisePropertyChanged(this, propertyName);
 
                 return;

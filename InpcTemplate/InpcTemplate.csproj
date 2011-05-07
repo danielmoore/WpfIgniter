@@ -8,7 +8,7 @@
     <ProjectGuid>{D6EFB1A2-D9C0-462D-A496-19F00B59BCD6}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>InpcTemplate</RootNamespace>
+    <RootNamespace>NorthHorizon.Samples.InpcTemplate</RootNamespace>
     <AssemblyName>InpcTemplate</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

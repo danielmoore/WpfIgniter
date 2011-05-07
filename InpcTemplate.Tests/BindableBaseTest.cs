@@ -1,8 +1,7 @@
-﻿using InpcTemplate;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
-namespace InpcTemplate.Tests
+namespace NorthHorizon.Samples.InpcTemplate.Tests
 {
 	/// <summary>
 	///This is a test class for BindableBaseTest and is intended

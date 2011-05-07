@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace InpcTemplate.Tests.Live
+namespace NorthHorizon.Samples.InpcTemplate.Tests.Live
 {
     [AttributeUsage(AttributeTargets.Class)]
     public sealed class LiveTestAttribute : Attribute

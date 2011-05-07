@@ -9,7 +9,7 @@
     <ProjectGuid>{CB03F10F-AF84-429F-854D-31F50F36AA31}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>InpcTemplate.Tests</RootNamespace>
+    <RootNamespace>NorthHorizon.Samples.InpcTemplate.Tests</RootNamespace>
     <AssemblyName>InpcTemplate.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

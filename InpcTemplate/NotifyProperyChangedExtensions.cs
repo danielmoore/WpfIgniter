@@ -4,7 +4,7 @@ using System.Disposables;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace InpcTemplate
+namespace NorthHorizon.Samples.InpcTemplate
 {
     /// <summary>
     /// Provides extension methods for subscribing to <see cref="INotifyPropertyChanged"/> and
