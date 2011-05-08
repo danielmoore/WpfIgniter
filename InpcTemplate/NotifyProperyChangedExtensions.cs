@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Disposables;
 using System.Linq.Expressions;
+using System.Reactive.Linq;
 using System.Reflection;
 
 namespace NorthHorizon.Samples.InpcTemplate
@@ -10,7 +11,7 @@ namespace NorthHorizon.Samples.InpcTemplate
     /// Provides extension methods for subscribing to <see cref="INotifyPropertyChanged"/> and
     /// <see cref="INotifyPropertyChanging"/> in a strongly typed manner.
     /// </summary>
-    public static class NotifyProperyChangedExtensions
+    public static class NotifyPropertyChangedExtensions
     {
         /// <summary>
         /// Subscribes the given handler to the <see cref="INotifyPropertyChanged.PropertyChanged"/> event.
@@ -68,6 +69,32 @@ namespace NorthHorizon.Samples.InpcTemplate
             source.PropertyChanging += handler;
 
             return Disposable.Create(() => source.PropertyChanging -= handler);
+        }
+
+        /// <summary>
+        /// Gets a stream of changes to a property triggered by  <see cref="INotifyPropertyChanged.PropertyChanged"/>.
+        /// </summary>
+        /// <typeparam name="TSource">The type of the object providing the event.</typeparam>
+        /// <typeparam name="TProp">The type of the property.</typeparam>
+        /// <param name="source">The object providing the event.</param>
+        /// <param name="propertySelector">A selector taking the given object and selecting the property to subscribe.</param>
+        /// <returns>A stream of new values being set to the given property.</returns>
+        public static IObservable<TProp> GetPropertyChanges<TSource, TProp>(this TSource source, Expression<Func<TSource, TProp>> propertySelector)
+            where TSource : INotifyPropertyChanged
+        {
+            var propertyName = GetPropertyName(propertySelector);
+
+            return Observable
+                .FromEvent<PropertyChangedEventHandler, PropertyChangedEventArgs>(
+                    h => new PropertyChangedEventHandler((s,e) => h(e)),
+                    h => source.PropertyChanged += h,
+                    h => source.PropertyChanged -= h)
+                .Where(e => string.Equals(propertyName, e.PropertyName, StringComparison.Ordinal))
+                .Let(o =>
+                {
+                    var selector = propertySelector.Compile();
+                    return o.Select(e => selector(source));
+                });
         }
 
         private static string GetPropertyName<TSource, TProp>(Expression<Func<TSource, TProp>> propertySelector)

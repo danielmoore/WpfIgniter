@@ -6,3 +6,4 @@
 *.vsmdi
 TestResults
 _ReSharper.*
+*.cache
