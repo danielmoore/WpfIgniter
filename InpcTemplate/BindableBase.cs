@@ -40,6 +40,8 @@ namespace NorthHorizon.Samples.InpcTemplate
 
             if (EqualityComparer<T>.Default.Equals(backingStore, effectiveValue))
             {
+                // If we coerced this value and the coerced value is not equal to the original, we need to
+                // send a fake PropertyChanged event to notify WPF that this value isn't what it thinks it is.
                 if (coerceValue != null && !EqualityComparer<T>.Default.Equals(value, effectiveValue))
                     PropertyChangedEventManagerProxy.Instance.RaisePropertyChanged(this, propertyName);
 
@@ -90,10 +92,15 @@ namespace NorthHorizon.Samples.InpcTemplate
         {
             private readonly NotifyPropertyChangedProxy _notifyPropertyChangedProxy;
 
+            // We need to hold on to this ref to keep it from getting GC'd
+            private readonly IWeakEventListener _weakEventListener;
+
             private PropertyChangedEventManagerProxy()
             {
                 _notifyPropertyChangedProxy = new NotifyPropertyChangedProxy();
-                PropertyChangedEventManager.AddListener(_notifyPropertyChangedProxy, new WeakListenerStub(), string.Empty);
+                _weakEventListener = new WeakListenerStub();
+
+                PropertyChangedEventManager.AddListener(_notifyPropertyChangedProxy, _weakEventListener, string.Empty);
             }
 
             public void RaisePropertyChanged(object sender, string propertyName)
