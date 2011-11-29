@@ -66,6 +66,7 @@ namespace NorthHorizon.Samples.InpcTemplate
             var frame = stackTrace.GetFrames()[2];
             var caller = frame.GetMethod();
 
+            // Explicitly implemented interface props will show the fullname here. Need to trim off the front for a clean compare.
             var callerName = caller.IsHideBySig ? caller.Name.Substring(caller.Name.LastIndexOf('.') + 1) : caller.Name;
 
             if (!callerName.Equals("set_" + propertyName, StringComparison.InvariantCulture))

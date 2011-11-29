@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Disposables;
 using System.Linq.Expressions;
+using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Reflection;
 
@@ -84,17 +84,15 @@ namespace NorthHorizon.Samples.InpcTemplate
         {
             var propertyName = GetPropertyName(propertySelector);
 
+            var selector = new Lazy<Func<TSource, TProp>>(propertySelector.Compile, isThreadSafe: true);
+
             return Observable
                 .FromEvent<PropertyChangedEventHandler, PropertyChangedEventArgs>(
-                    h => new PropertyChangedEventHandler((s,e) => h(e)),
+                    h => new PropertyChangedEventHandler((s, e) => h(e)),
                     h => source.PropertyChanged += h,
                     h => source.PropertyChanged -= h)
                 .Where(e => string.Equals(propertyName, e.PropertyName, StringComparison.Ordinal))
-                .Let(o =>
-                {
-                    var selector = propertySelector.Compile();
-                    return o.Select(e => selector(source));
-                });
+                .Select(e => selector.Value(source));
         }
 
         private static string GetPropertyName<TSource, TProp>(Expression<Func<TSource, TProp>> propertySelector)
