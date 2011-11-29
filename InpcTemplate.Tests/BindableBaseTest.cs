@@ -47,6 +47,12 @@ namespace NorthHorizon.Samples.InpcTemplate.Tests
         }
 
         [TestMethod]
+        public void SupportsExplicitInterfaces()
+        {
+            ((ITestInterface)_sut).MyInterfaceValue = 5;
+        }
+
+        [TestMethod]
         public void CanSubscribeToPropertyChanged()
         {
             bool propertyChanged = false;
@@ -63,7 +69,7 @@ namespace NorthHorizon.Samples.InpcTemplate.Tests
             Assert.IsFalse(propertyChanged);
         }
 
-        private class TestBindableType : BindableBase
+        private class TestBindableType : BindableBase, ITestInterface
         {
             private int _myValue;
             public int MyValue
@@ -78,6 +84,18 @@ namespace NorthHorizon.Samples.InpcTemplate.Tests
                 get { return _myBrokenValue; }
                 set { SetProperty(ref _myBrokenValue, value, "MyValue"); }
             }
+
+            private int _myInterfaceValue;
+            int ITestInterface.MyInterfaceValue
+            {
+                get { return _myInterfaceValue; }
+                set { SetProperty(ref _myInterfaceValue, value, "MyInterfaceValue"); }
+            }
+        }
+
+        private interface ITestInterface
+        {
+            int MyInterfaceValue { get; set; }
         }
     }
 }

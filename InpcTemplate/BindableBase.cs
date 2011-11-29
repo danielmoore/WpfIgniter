@@ -66,7 +66,9 @@ namespace NorthHorizon.Samples.InpcTemplate
             var frame = stackTrace.GetFrames()[2];
             var caller = frame.GetMethod();
 
-            if (!caller.Name.Equals("set_" + propertyName, StringComparison.InvariantCulture))
+            var callerName = caller.IsHideBySig ? caller.Name.Substring(caller.Name.LastIndexOf('.') + 1) : caller.Name;
+
+            if (!callerName.Equals("set_" + propertyName, StringComparison.InvariantCulture))
                 throw new InvalidOperationException(string.Format("Called SetProperty for {0} from {1}", propertyName, caller.Name));
         }
 
