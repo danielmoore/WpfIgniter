@@ -1,0 +1,7 @@
+﻿<local:TestResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:NorthHorizon.Samples.InpcTemplate.Tests.Live">
+    <SolidColorBrush x:Key="Brush1" Color="SteelBlue"/>
+    <SolidColorBrush x:Key="Brush2" Color="SpringGreen"/>
+</local:TestResourceDictionary>

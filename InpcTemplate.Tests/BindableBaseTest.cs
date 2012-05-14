@@ -1,58 +1,32 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace NorthHorizon.Samples.InpcTemplate.Tests
 {
-    [TestClass]
+    [TestFixture]
     public class BindableBaseTest
     {
         static TestBindableType _sut;
 
-        #region Additional test attributes
-        // 
-        //You can use the following additional attributes as you write your tests:
-        //
-        //Use ClassInitialize to run code before running the first test in the class
-        [ClassInitialize()]
-        public static void MyClassInitialize(TestContext testContext)
+        [TestFixtureSetUp]
+        public void FixureSetup()
         {
             _sut = new TestBindableType();
         }
-        //
-        //Use ClassCleanup to run code after all tests in a class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
-        //
-        //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
-        //
-        //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
-        //
-        #endregion
 
-        [TestMethod()]
-        [ExpectedException(typeof(InvalidOperationException))]
+        [Test, ExpectedException(typeof(InvalidOperationException))]
         public void CheckForStackAnalysis()
         {
             _sut.MyBrokenValue = 4;
         }
 
-        [TestMethod]
+        [Test]
         public void SupportsExplicitInterfaces()
         {
             ((ITestInterface)_sut).MyInterfaceValue = 5;
         }
 
-        [TestMethod]
+        [Test]
         public void CanSubscribeToPropertyChanged()
         {
             bool propertyChanged = false;

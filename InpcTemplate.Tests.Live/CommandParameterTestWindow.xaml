@@ -1,0 +1,10 @@
+﻿<Window x:Class="NorthHorizon.Samples.InpcTemplate.Tests.Live.CommandParameterTestWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="CommandParameterTestWindow" Height="300" Width="300">
+    <StackPanel>
+        <TextBox Text="{Binding Value1, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox Name="Value2TextBox"/>
+        <Button Content="Test" Command="{Binding TestCommand}" CommandParameter="{Binding Text, ElementName=Value2TextBox, UpdateSourceTrigger=PropertyChanged}"/>
+    </StackPanel>
+</Window>

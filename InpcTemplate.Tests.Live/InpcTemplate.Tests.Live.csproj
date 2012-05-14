@@ -58,7 +58,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CommandParameterTestViewModel.cs" />
+    <Compile Include="CommandParameterTestWindow.xaml.cs">
+      <DependentUpon>CommandParameterTestWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SharedResourceDictionaryTestWindow.xaml.cs">
+      <DependentUpon>SharedResourceDictionaryTestWindow.xaml</DependentUpon>
+    </Compile>
     <Page Include="CoerceTestWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CommandParameterTestWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -81,6 +92,14 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="SharedResourceDictionaryTestWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TestSharedResources.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">

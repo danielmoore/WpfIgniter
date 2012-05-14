@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace NorthHorizon.Samples.InpcTemplate.Tests
 {
-    [TestClass]
+    [TestFixture]
     public class NotifyPropertyChangedExtensionTest
     {
-        [TestMethod]
+        [Test]
         public void TestGetPropertyChanges()
         {
             var receivedValues = new List<string>();
