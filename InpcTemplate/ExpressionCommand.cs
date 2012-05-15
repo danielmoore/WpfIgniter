@@ -126,6 +126,7 @@ namespace NorthHorizon.Samples.InpcTemplate
 
             propertyChangedCallbackField.SetValue(metadata, metadata.PropertyChangedCallback + OnButtonBaseCommandParameterChanged);
 
+            // _metadataMap contains all the metadata overrides for the DP.
             var metadataMapField = typeof(DependencyProperty).GetField("_metadataMap", BindingFlags.NonPublic | BindingFlags.Instance);
 
             var metadataMap = metadataMapField.GetValue(ButtonBase.CommandParameterProperty);

@@ -5,7 +5,7 @@ using NUnit.Framework;
 namespace NorthHorizon.Samples.InpcTemplate.Tests
 {
     [TestFixture]
-    class ExpressionCommandTestFixture
+    public class ExpressionCommandTestFixture
     {
         [Test]
         public void TestSimpleCommand()
