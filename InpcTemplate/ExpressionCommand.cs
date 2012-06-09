@@ -419,33 +419,6 @@ namespace NorthHorizon.Samples.InpcTemplate
 
         #endregion
 
-        private static DependencyProperty GetDependencyProperty(Type type, string name)
-        {
-            if (!typeof(DependencyObject).IsAssignableFrom(type)) return null;
-
-            return TypeDescriptor
-                .GetProperties(type, new[] { new PropertyFilterAttribute(PropertyFilterOptions.All) })
-                .Cast<PropertyDescriptor>()
-                .Where(p => p.Name == name)
-                .Select(DependencyPropertyDescriptor.FromProperty)
-                .Where(dpd => dpd != null)
-                .Select(dpd => dpd.DependencyProperty)
-                .OrderBy(dpd => dpd.OwnerType, SubclassCompareer.Instance)
-                .FirstOrDefault();
-        }
-
-        private class SubclassCompareer : IComparer<Type>
-        {
-            public static readonly SubclassCompareer Instance = new SubclassCompareer();
-
-            private SubclassCompareer() { }
-
-            public int Compare(Type x, Type y)
-            {
-                return x == y ? 0 : x.IsSubclassOf(y) ? 1 : -1;
-            }
-        }
-
         private class NotifierFindingExpressionVisitor : ExpressionVisitor
         {
             public readonly HashSet<MemberExpression> NotifyingMembers = new HashSet<MemberExpression>(PropertyChainEqualityComparer.Instance);
@@ -469,17 +442,6 @@ namespace NorthHorizon.Samples.InpcTemplate
                 }
 
                 return base.VisitMember(node);
-            }
-
-            private static bool IsDependencyProperty(MemberExpression node)
-            {
-                var exprType = node.Expression.Type;
-                if (!typeof(DependencyObject).IsAssignableFrom(exprType))
-                    return false;
-
-                var propertyField = exprType.GetField(string.Format("{0}Property", node.Member.Name), BindingFlags.Public | BindingFlags.Static);
-
-                return propertyField != null && propertyField.FieldType == typeof(DependencyProperty);
             }
 
             protected override Expression VisitMethodCall(MethodCallExpression node)
@@ -523,6 +485,33 @@ namespace NorthHorizon.Samples.InpcTemplate
                         default:
                             return false;
                     }
+                }
+            }
+
+            private static DependencyProperty GetDependencyProperty(Type type, string name)
+            {
+                if (!typeof(DependencyObject).IsAssignableFrom(type)) return null;
+
+                return TypeDescriptor
+                    .GetProperties(type, new[] { new PropertyFilterAttribute(PropertyFilterOptions.All) })
+                    .Cast<PropertyDescriptor>()
+                    .Where(p => p.Name == name)
+                    .Select(DependencyPropertyDescriptor.FromProperty)
+                    .Where(dpd => dpd != null)
+                    .Select(dpd => dpd.DependencyProperty)
+                    .OrderBy(dpd => dpd.OwnerType, SubclassCompareer.Instance)
+                    .FirstOrDefault();
+            }
+
+            private class SubclassCompareer : IComparer<Type>
+            {
+                public static readonly SubclassCompareer Instance = new SubclassCompareer();
+
+                private SubclassCompareer() { }
+
+                public int Compare(Type x, Type y)
+                {
+                    return x == y ? 0 : x.IsSubclassOf(y) ? 1 : -1;
                 }
             }
 

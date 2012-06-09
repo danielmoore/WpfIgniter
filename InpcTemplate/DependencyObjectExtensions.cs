@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows;
-using System.ComponentModel;
 using System.Windows.Data;
 
 namespace NorthHorizon.Samples.InpcTemplate
