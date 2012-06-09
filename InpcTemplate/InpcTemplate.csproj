@@ -49,6 +49,7 @@
     <Compile Include="BindableBase.cs" />
     <Compile Include="CommandBase.cs" />
     <Compile Include="DelegateCommand.cs" />
+    <Compile Include="DependencyObjectExtensions.cs" />
     <Compile Include="ExpressionCommand.cs" />
     <Compile Include="Markup\SharedResourceDisctionaryExtension.cs" />
     <Compile Include="NotifyProperyChangedExtensions.cs" />

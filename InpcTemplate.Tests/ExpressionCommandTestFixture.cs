@@ -1,6 +1,9 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
 using NUnit.Framework;
+using System.Windows;
+using System.Windows.Threading;
+using System.Threading;
 
 namespace NorthHorizon.Samples.InpcTemplate.Tests
 {
@@ -35,11 +38,11 @@ namespace NorthHorizon.Samples.InpcTemplate.Tests
 
             updateCount.ShouldEqual(1);
 
-            sut.Value2.Value4 = new TestSubViewModel();
+            sut.Value2.Value5 = new TestSubViewModel();
 
             updateCount.ShouldEqual(2);
 
-            sut.Value2.Value4.Value3 = 3;
+            sut.Value2.Value5.Value4 = 3;
 
             updateCount.ShouldEqual(3);
         }
@@ -59,7 +62,27 @@ namespace NorthHorizon.Samples.InpcTemplate.Tests
 
             updateCount.ShouldEqual(1);
 
-            sut.Value2.Value5.Add(sut.Value2);
+            sut.Value2.Value6.Add(sut.Value2);
+
+            updateCount.ShouldEqual(2);
+        }
+
+        [Test]
+        public void TestComplexDepenencyObjectCommand()
+        {
+            var sut = new TestViewModel
+            {
+                Value3 = new TestDependencyObjectViewModel()
+            };
+
+            int updateCount = 0;
+            sut.ComplexDependencyObjectCommand.CanExecuteChanged += (s, e) => updateCount++;
+
+            sut.Value3 = new TestDependencyObjectViewModel();
+
+            updateCount.ShouldEqual(1);
+
+            sut.Value3.Value7 = 3;
 
             updateCount.ShouldEqual(2);
         }
@@ -70,9 +93,11 @@ namespace NorthHorizon.Samples.InpcTemplate.Tests
             {
                 SimpleCommand = new ExpressionCommand(OnExecute, () => Value1 > 5);
 
-                ComplexCommand = new ExpressionCommand(OnExecute, () => Value2.Value4.Value3 > 5);
+                ComplexCommand = new ExpressionCommand(OnExecute, () => Value2.Value5.Value4 > 5);
 
-                ComplexCollectionCommand = new ExpressionCommand(OnExecute, () => Value2.Value5.Contains(Value2));
+                ComplexCollectionCommand = new ExpressionCommand(OnExecute, () => Value2.Value6.Contains(Value2));
+
+                ComplexDependencyObjectCommand = new ExpressionCommand(OnExecute, () => Value3.Value7 > 5);
             }
 
             public ICommand SimpleCommand { get; private set; }
@@ -80,6 +105,8 @@ namespace NorthHorizon.Samples.InpcTemplate.Tests
             public ICommand ComplexCommand { get; private set; }
 
             public ICommand ComplexCollectionCommand { get; private set; }
+
+            public ICommand ComplexDependencyObjectCommand { get; private set; }
 
             private int _value1;
             public int Value1
@@ -95,26 +122,46 @@ namespace NorthHorizon.Samples.InpcTemplate.Tests
                 set { SetProperty(ref _value2, value, "Value2"); }
             }
 
-            private void OnExecute() { }
-        }
-
-        private class TestSubViewModel : BindableBase
-        {
-            private int _value3;
-            public int Value3
+            private TestDependencyObjectViewModel _value3;
+            public TestDependencyObjectViewModel Value3
             {
                 get { return _value3; }
                 set { SetProperty(ref _value3, value, "Value3"); }
             }
 
-            private TestSubViewModel _value4;
-            public TestSubViewModel Value4
+            private void OnExecute() { }
+        }
+
+        private class TestSubViewModel : BindableBase
+        {
+            private int _value4;
+            public int Value4
             {
                 get { return _value4; }
                 set { SetProperty(ref _value4, value, "Value4"); }
             }
 
-            public ObservableCollection<TestSubViewModel> Value5 = new ObservableCollection<TestSubViewModel>();
+            private TestSubViewModel _value5;
+            public TestSubViewModel Value5
+            {
+                get { return _value5; }
+                set { SetProperty(ref _value5, value, "Value5"); }
+            }
+
+            public ObservableCollection<TestSubViewModel> Value6 = new ObservableCollection<TestSubViewModel>();
+        }
+
+        private class TestDependencyObjectViewModel : DependencyObject
+        {
+            public int Value7
+            {
+                get { return (int)GetValue(Value7Property); }
+                set { SetValue(Value7Property, value); }
+            }
+
+            // Using a DependencyProperty as the backing store for Value6.  This enables animation, styling, binding, etc...
+            public static readonly DependencyProperty Value7Property =
+                DependencyProperty.Register("Value7", typeof(int), typeof(TestDependencyObjectViewModel), new UIPropertyMetadata(0));
         }
     }
 }

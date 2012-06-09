@@ -175,6 +175,9 @@ namespace NorthHorizon.Samples.InpcTemplate
             foreach (var notifier in visitor.BindingLists)
                 _watchers.Add(new BindingListWatcher(notifier));
 
+            foreach (var pair in visitor.DependencyProperties)
+                _watchers.Add(new DependencyPropertyWatcher(pair.Key.Expression, pair.Value));
+
             foreach (var watcher in _watchers)
             {
                 watcher.Changed += OnWatcherChanged;
@@ -388,11 +391,66 @@ namespace NorthHorizon.Samples.InpcTemplate
             }
         }
 
+        private class DependencyPropertyWatcher : Watcher<DependencyObject>
+        {
+            private readonly DependencyProperty _property;
+
+            public DependencyPropertyWatcher(Expression ownerExpression, DependencyProperty property)
+                : base(ownerExpression)
+            {
+                _property = property;
+            }
+
+            protected override void Subscribe(DependencyObject notifier)
+            {
+                notifier.AddDependencyPropertyChangedHandler(_property, OnPropertyChanged);
+            }
+
+            protected override void Unsubscribe(DependencyObject notifier)
+            {
+                notifier.RemoveDependencyPropertyChangedHandler(_property, OnPropertyChanged);
+            }
+
+            private void OnPropertyChanged(object sender, DependencyPropertyChangedEventArgs e)
+            {
+                OnChanged();
+            }
+        }
+
         #endregion
+
+        private static DependencyProperty GetDependencyProperty(Type type, string name)
+        {
+            if (!typeof(DependencyObject).IsAssignableFrom(type)) return null;
+
+            return TypeDescriptor
+                .GetProperties(type, new[] { new PropertyFilterAttribute(PropertyFilterOptions.All) })
+                .Cast<PropertyDescriptor>()
+                .Where(p => p.Name == name)
+                .Select(DependencyPropertyDescriptor.FromProperty)
+                .Where(dpd => dpd != null)
+                .Select(dpd => dpd.DependencyProperty)
+                .OrderBy(dpd => dpd.OwnerType, SubclassCompareer.Instance)
+                .FirstOrDefault();
+        }
+
+        private class SubclassCompareer : IComparer<Type>
+        {
+            public static readonly SubclassCompareer Instance = new SubclassCompareer();
+
+            private SubclassCompareer() { }
+
+            public int Compare(Type x, Type y)
+            {
+                return x == y ? 0 : x.IsSubclassOf(y) ? 1 : -1;
+            }
+        }
 
         private class NotifierFindingExpressionVisitor : ExpressionVisitor
         {
             public readonly HashSet<MemberExpression> NotifyingMembers = new HashSet<MemberExpression>(PropertyChainEqualityComparer.Instance);
+
+            public readonly Dictionary<MemberExpression, DependencyProperty> DependencyProperties = new Dictionary<MemberExpression, DependencyProperty>(PropertyChainEqualityComparer.Instance);
 
             public readonly HashSet<Expression> NotifyingCollections = new HashSet<Expression>(PropertyChainEqualityComparer.Instance);
 
@@ -400,10 +458,28 @@ namespace NorthHorizon.Samples.InpcTemplate
 
             protected override Expression VisitMember(MemberExpression node)
             {
-                if (IsPropertyChain(node.Expression) && typeof(INotifyPropertyChanged).IsAssignableFrom(node.Expression.Type))
-                    NotifyingMembers.Add(node);
+                if (IsPropertyChain(node.Expression))
+                {
+                    var dependencyProperty = GetDependencyProperty(node.Expression.Type, node.Member.Name);
+
+                    if (dependencyProperty != null)
+                        DependencyProperties.Add(node, dependencyProperty);
+                    else if (typeof(INotifyPropertyChanged).IsAssignableFrom(node.Expression.Type))
+                        NotifyingMembers.Add(node);
+                }
 
                 return base.VisitMember(node);
+            }
+
+            private static bool IsDependencyProperty(MemberExpression node)
+            {
+                var exprType = node.Expression.Type;
+                if (!typeof(DependencyObject).IsAssignableFrom(exprType))
+                    return false;
+
+                var propertyField = exprType.GetField(string.Format("{0}Property", node.Member.Name), BindingFlags.Public | BindingFlags.Static);
+
+                return propertyField != null && propertyField.FieldType == typeof(DependencyProperty);
             }
 
             protected override Expression VisitMethodCall(MethodCallExpression node)

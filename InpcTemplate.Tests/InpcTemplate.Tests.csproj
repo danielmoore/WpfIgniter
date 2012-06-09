@@ -55,6 +55,7 @@
     <Reference Include="System.Reactive.Windows.Threading, Version=1.0.10621.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Rx-WPF.1.0.10621\lib\Net4\System.Reactive.Windows.Threading.dll</HintPath>
     </Reference>
+    <Reference Include="System.Windows.Presentation" />
     <Reference Include="System.Xaml" />
     <Reference Include="WindowsBase" />
   </ItemGroup>
@@ -66,6 +67,7 @@
   <ItemGroup>
     <Compile Include="BindableBaseTest.cs" />
     <Compile Include="ExpressionCommandTestFixture.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="NotifyPropertyChangedExtensionTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
