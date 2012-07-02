@@ -39,7 +39,7 @@ namespace NorthHorizon.Samples.InpcTemplate
                 proxy.ValueChanged -= handler;
         }
 
-        #region [Attached] private static  Dictionary<DependencyProperty, EventProxy> EventProxies { get; set; }
+        #region [Attached] private static Dictionary<DependencyProperty, EventProxy> EventProxies { get; set; }
 
         private static Dictionary<DependencyProperty, EventProxy> GetEventProxies(DependencyObject obj)
         {

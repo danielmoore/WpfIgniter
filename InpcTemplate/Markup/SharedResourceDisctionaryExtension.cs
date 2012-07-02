@@ -16,24 +16,13 @@ namespace NorthHorizon.Samples.InpcTemplate.Markup
         {
             if (Source == null) return null;
 
-            var uri = ResolveUri(serviceProvider);
+            var uri = serviceProvider.GetService<IUriContext>().ResolvePartUri(Source);
 
             ResourceDictionary dictionary;
             if (!CachedDictionaries.TryGetValue(uri, out dictionary))
                 CachedDictionaries.Add(uri, dictionary = new ResourceDictionary { Source = Source });
 
             return dictionary;
-        }
-
-        private Uri ResolveUri(IServiceProvider serviceProvider)
-        {
-            if (Source.IsAbsoluteUri) return PackUriHelper.GetPartUri(Source);
-
-            var uriContext = (IUriContext)serviceProvider.GetService(typeof(IUriContext));
-
-            var baseUri = uriContext.BaseUri;
-
-            return PackUriHelper.ResolvePartUri(PackUriHelper.GetPartUri(uriContext.BaseUri), Source);
         }
 
         private class PartUriEqualityComparer : IEqualityComparer<Uri>

@@ -51,6 +51,8 @@
     <Compile Include="DelegateCommand.cs" />
     <Compile Include="DependencyObjectExtensions.cs" />
     <Compile Include="ExpressionCommand.cs" />
+    <Compile Include="Markup\DirectoryResourceDictionaryExtension.cs" />
+    <Compile Include="Markup\Extensions.cs" />
     <Compile Include="Markup\SharedResourceDisctionaryExtension.cs" />
     <Compile Include="NotifyProperyChangedExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

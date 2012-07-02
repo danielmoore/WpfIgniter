@@ -62,6 +62,9 @@
     <Compile Include="CommandParameterTestWindow.xaml.cs">
       <DependentUpon>CommandParameterTestWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="FolderResourceDictionaryTestWindow.xaml.cs">
+      <DependentUpon>FolderResourceDictionaryTestWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SharedResourceDictionaryTestWindow.xaml.cs">
       <DependentUpon>SharedResourceDictionaryTestWindow.xaml</DependentUpon>
     </Compile>
@@ -70,6 +73,22 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="CommandParameterTestWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="FolderResourceDictionaryTestFolder\Subfolder\Test3.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="FolderResourceDictionaryTestFolder\Test1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="FolderResourceDictionaryTestFolder\Test2.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="FolderResourceDictionaryTestWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -132,6 +151,10 @@
       <Name>InpcTemplate</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="FolderResourceDictionaryTestFolder\Dialup.png" />
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
