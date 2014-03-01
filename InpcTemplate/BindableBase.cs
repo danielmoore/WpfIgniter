@@ -52,11 +52,12 @@ namespace NorthHorizon.Samples.InpcTemplate
 
             OnPropertyChanging(propertyName);
 
+            var oldValue = backingStore;
             backingStore = effectiveValue;
 
             if (onChanged != null) onChanged();
 
-            OnPropertyChanged(propertyName);
+            OnPropertyChanged(propertyName, oldValue, effectiveValue);
         }
 
         [Conditional("DEBUG")]
@@ -74,16 +75,36 @@ namespace NorthHorizon.Samples.InpcTemplate
         }
 
         /// <summary>
-        /// Called when the given property has changed.
+        /// Raises the <see cref="E:PropertyChanged"/> event.
         /// </summary>
         /// <param name="propertyName">The name of the property.</param>
-        protected virtual void OnPropertyChanged(string propertyName)
+        protected void OnPropertyChanged(string propertyName)
         {
-            PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
         }
 
         /// <summary>
-        /// Called when the given property is changing.
+        /// Raises the <see cref="E:PropertyChanged"/> event.
+        /// </summary>
+        /// <param name="propertyName">The name of the property.</param>
+        /// <param name="oldValue">The old value of the property.</param>
+        /// <param name="newValue">The new value of the property.</param>
+        protected void OnPropertyChanged<T>(string propertyName, T oldValue, T newValue)
+        {
+            OnPropertyChanged(new PropertyChangedEventArgs<T>(propertyName, oldValue, newValue));
+        }
+
+        /// <summary>
+        /// Raises the <see cref="E:PropertyChanged"/> event.
+        /// </summary>
+        /// <param name="args">The <see cref="System.ComponentModel.PropertyChangedEventArgs"/> instance containing the event data.</param>
+        protected virtual void OnPropertyChanged(PropertyChangedEventArgs args)
+        {
+            PropertyChanged(this, args);
+        }
+
+        /// <summary>
+        /// Raises the <see cref="E:PropertyChanging"/> event.
         /// </summary>
         /// <param name="propertyName">The name of the property.</param>
         protected virtual void OnPropertyChanging(string propertyName)

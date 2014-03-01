@@ -30,7 +30,7 @@ namespace NorthHorizon.Samples.InpcTemplate.Tests
         public void CanSubscribeToPropertyChanged()
         {
             bool propertyChanged = false;
-            var subscription = _sut.SubscribeToPropertyChanged(m => m.MyValue, () => propertyChanged = true);
+            var subscription = _sut.SubscribeToPropertyChanged(m => m.MyValue, (s, e) => propertyChanged = true);
             _sut.MyValue = 4;
             Assert.IsTrue(propertyChanged);
 

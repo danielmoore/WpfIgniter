@@ -22,7 +22,7 @@ namespace NorthHorizon.Samples.InpcTemplate
         /// <param name="propertySelector">A selector taking the given object and selecting the property to subscribe.</param>
         /// <param name="onChanged">The handler to call when the property changes.</param>
         /// <returns>A subscription token that, when disposed, will unsubscribe the handler.</returns>
-        public static IDisposable SubscribeToPropertyChanged<TSource, TProp>(this TSource source, Expression<Func<TSource, TProp>> propertySelector, Action onChanged)
+        public static IDisposable SubscribeToPropertyChanged<TSource, TProp>(this TSource source, Expression<Func<TSource, TProp>> propertySelector, PropertyChangedEventHandler onChanged)
             where TSource : INotifyPropertyChanged
         {
             if (source == null) throw new ArgumentNullException("source");
@@ -34,7 +34,7 @@ namespace NorthHorizon.Samples.InpcTemplate
             PropertyChangedEventHandler handler = (s, e) =>
             {
                 if (string.Equals(e.PropertyName, subscribedPropertyName, StringComparison.InvariantCulture))
-                    onChanged();
+                    onChanged(s, e);
             };
 
             source.PropertyChanged += handler;
@@ -51,7 +51,7 @@ namespace NorthHorizon.Samples.InpcTemplate
         /// <param name="propertySelector">A selector taking the given object and selecting the property to subscribe.</param>
         /// <param name="onChanging">The handler to call when the property is changing.</param>
         /// <returns>A subscription token that, when disposed, will unsubscribe the handler.</returns>
-        public static IDisposable SubscribeToPropertyChanging<TSource, TProp>(this TSource source, Expression<Func<TSource, TProp>> propertySelector, Action onChanging)
+        public static IDisposable SubscribeToPropertyChanging<TSource, TProp>(this TSource source, Expression<Func<TSource, TProp>> propertySelector, PropertyChangingEventHandler onChanging)
             where TSource : INotifyPropertyChanging
         {
             if (source == null) throw new ArgumentNullException("source");
@@ -63,7 +63,7 @@ namespace NorthHorizon.Samples.InpcTemplate
             PropertyChangingEventHandler handler = (s, e) =>
             {
                 if (string.Equals(e.PropertyName, subscribedPropertyName, StringComparison.InvariantCulture))
-                    onChanging();
+                    onChanging(s, e);
             };
 
             source.PropertyChanging += handler;
@@ -92,7 +92,11 @@ namespace NorthHorizon.Samples.InpcTemplate
                     h => source.PropertyChanged += h,
                     h => source.PropertyChanged -= h)
                 .Where(e => string.Equals(propertyName, e.PropertyName, StringComparison.Ordinal))
-                .Select(e => selector.Value(source));
+                .Select(e =>
+                {
+                    var typedArgs = e as PropertyChangedEventArgs<TProp>;
+                    return typedArgs != null ? typedArgs.NewValue : selector.Value(source);
+                });
         }
 
         private static string GetPropertyName<TSource, TProp>(Expression<Func<TSource, TProp>> propertySelector)
