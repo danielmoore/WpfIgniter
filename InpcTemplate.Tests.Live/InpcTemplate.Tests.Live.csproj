@@ -87,6 +87,17 @@
     <Compile Include="SharedResourceDictionaryTestWindow.xaml.cs">
       <DependentUpon>SharedResourceDictionaryTestWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewElementTests\TestView1.xaml.cs">
+      <DependentUpon>TestView1.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewElementTests\TestView2.xaml.cs">
+      <DependentUpon>TestView2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewElementTests\TestViewModel1.cs" />
+    <Compile Include="ViewElementTests\TestViewModel2.cs" />
+    <Compile Include="ViewElementTests\ViewElementTestWindow.xaml.cs">
+      <DependentUpon>ViewElementTestWindow.xaml</DependentUpon>
+    </Compile>
     <Page Include="CoerceTestWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -135,6 +146,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="TestSharedResources.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ViewElementTests\TestView1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ViewElementTests\TestView2.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ViewElementTests\ViewElementTestWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
