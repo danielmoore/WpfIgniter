@@ -14,12 +14,6 @@ namespace NorthHorizon.Samples.InpcTemplate.Tests
             _sut = new TestBindableType();
         }
 
-        [Test, ExpectedException(typeof(InvalidOperationException))]
-        public void CheckForStackAnalysis()
-        {
-            _sut.MyBrokenValue = 4;
-        }
-
         [Test]
         public void SupportsExplicitInterfaces()
         {
@@ -49,21 +43,14 @@ namespace NorthHorizon.Samples.InpcTemplate.Tests
             public int MyValue
             {
                 get { return _myValue; }
-                set { SetProperty(ref _myValue, value, "MyValue"); }
-            }
-
-            private int _myBrokenValue;
-            public int MyBrokenValue
-            {
-                get { return _myBrokenValue; }
-                set { SetProperty(ref _myBrokenValue, value, "MyValue"); }
+                set { SetProperty(ref _myValue, value); }
             }
 
             private int _myInterfaceValue;
             int ITestInterface.MyInterfaceValue
             {
                 get { return _myInterfaceValue; }
-                set { SetProperty(ref _myInterfaceValue, value, "MyInterfaceValue"); }
+                set { SetProperty(ref _myInterfaceValue, value); }
             }
         }
 

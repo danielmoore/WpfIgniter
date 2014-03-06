@@ -110,21 +110,21 @@ namespace NorthHorizon.Samples.InpcTemplate.Tests
             public int Value1
             {
                 get { return _value1; }
-                set { SetProperty(ref _value1, value, "Value1"); }
+                set { SetProperty(ref _value1, value); }
             }
 
             private TestSubViewModel _value2;
             public TestSubViewModel Value2
             {
                 get { return _value2; }
-                set { SetProperty(ref _value2, value, "Value2"); }
+                set { SetProperty(ref _value2, value); }
             }
 
             private TestDependencyObjectViewModel _value3;
             public TestDependencyObjectViewModel Value3
             {
                 get { return _value3; }
-                set { SetProperty(ref _value3, value, "Value3"); }
+                set { SetProperty(ref _value3, value); }
             }
 
             private void OnExecute() { }
@@ -136,14 +136,14 @@ namespace NorthHorizon.Samples.InpcTemplate.Tests
             public int Value4
             {
                 get { return _value4; }
-                set { SetProperty(ref _value4, value, "Value4"); }
+                set { SetProperty(ref _value4, value); }
             }
 
             private TestSubViewModel _value5;
             public TestSubViewModel Value5
             {
                 get { return _value5; }
-                set { SetProperty(ref _value5, value, "Value5"); }
+                set { SetProperty(ref _value5, value); }
             }
 
             public ObservableCollection<TestSubViewModel> Value6 = new ObservableCollection<TestSubViewModel>();

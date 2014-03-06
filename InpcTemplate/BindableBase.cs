@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using System.Windows;
 
 namespace NorthHorizon.Samples.InpcTemplate
@@ -32,8 +33,9 @@ namespace NorthHorizon.Samples.InpcTemplate
         /// <param name="onChanged">An optional callback to raise just before <see cref="PropertyChanged"/>.</param>
         /// <param name="onChanging">An optional callback to raise just before <see cref="PropertyChanging"/>.</param>
         /// <param name="coerceValue">An optional callback to coerce values before they are set.</param>
-        protected void SetProperty<T>(ref T backingStore, T value, string propertyName, Action onChanged = null, Action<T> onChanging = null, Func<T, T> coerceValue = null)
+        protected void SetProperty<T>(ref T backingStore, T value, Action onChanged = null, Action<T> onChanging = null, Func<T, T> coerceValue = null, [CallerMemberName]string propertyName = null)
         {
+            if (string.IsNullOrEmpty(propertyName)) throw new ArgumentNullException("propertyName");
             VerifyCallerIsProperty(propertyName);
 
             var effectiveValue = coerceValue != null ? coerceValue(value) : value;

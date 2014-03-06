@@ -15,7 +15,7 @@ namespace NorthHorizon.Samples.InpcTemplate.Tests.Live
         public int Value1
         {
             get { return _value1; }
-            set { SetProperty(ref _value1, value, "Value1"); }
+            set { SetProperty(ref _value1, value); }
         }
     }
 }

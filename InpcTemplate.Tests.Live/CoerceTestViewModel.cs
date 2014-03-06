@@ -6,7 +6,7 @@
         public int Value
         {
             get { return _value; }
-            set { SetProperty(ref _value, value, "Value", coerceValue: CoerceValue); }
+            set { SetProperty(ref _value, value, coerceValue: CoerceValue); }
         }
 
         private int CoerceValue(int value)

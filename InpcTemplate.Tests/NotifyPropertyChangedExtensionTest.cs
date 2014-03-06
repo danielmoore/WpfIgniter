@@ -34,7 +34,7 @@ namespace NorthHorizon.Samples.InpcTemplate.Tests
             public string MyValue
             {
                 get { return _myValue; }
-                set { SetProperty(ref _myValue, value, "MyValue"); }
+                set { SetProperty(ref _myValue, value); }
             }
         }
     }
