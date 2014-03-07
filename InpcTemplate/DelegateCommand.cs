@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Input;
 
 namespace NorthHorizon.Samples.InpcTemplate
 {

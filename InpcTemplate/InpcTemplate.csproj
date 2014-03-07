@@ -70,6 +70,7 @@
     <Compile Include="DelegateCommand.cs" />
     <Compile Include="DependencyObjectExtensions.cs" />
     <Compile Include="ExpressionCommand.cs" />
+    <Compile Include="ExpressionUtil.cs" />
     <Compile Include="Markup\DirectoryResourceDictionaryExtension.cs" />
     <Compile Include="Markup\Extensions.cs" />
     <Compile Include="Markup\SharedResourceDisctionaryExtension.cs" />
@@ -79,7 +80,9 @@
     <Compile Include="WeakEvent.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.13\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.13\tools\Microsoft.Bcl.Build.targets')" />

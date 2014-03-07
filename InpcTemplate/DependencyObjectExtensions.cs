@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reactive.Disposables;
+using System.Reactive.Linq;
 using System.Windows;
 using System.Windows.Data;
 
@@ -7,7 +9,7 @@ namespace NorthHorizon.Samples.InpcTemplate
 {
     public static class DependencyObjectExtensions
     {
-        public static void AddDependencyPropertyChangedHandler(this DependencyObject source, DependencyProperty property, DependencyPropertyChangedEventHandler handler)
+        public static IDisposable SubscribeToDependencyPropertyChanges(this DependencyObject source, DependencyProperty property, DependencyPropertyChangedEventHandler handler)
         {
             if (source == null) throw new ArgumentNullException("source");
             if (property == null) throw new ArgumentNullException("property");
@@ -25,18 +27,13 @@ namespace NorthHorizon.Samples.InpcTemplate
             }
 
             proxy.ValueChanged += handler;
+
+            return Disposable.Create(() => proxy.ValueChanged -= handler);
         }
 
-        public static void RemoveDependencyPropertyChangedHandler(this DependencyObject source, DependencyProperty property, DependencyPropertyChangedEventHandler handler)
+        public static IObservable<object> GetDependencyPropertyChanges(this DependencyObject source, DependencyProperty property)
         {
-            if (source == null) throw new ArgumentNullException("source");
-            if (property == null) throw new ArgumentNullException("property");
-
-            var proxies = GetEventProxies(source);
-
-            EventProxy proxy;
-            if (proxies != null && proxies.TryGetValue(property, out proxy))
-                proxy.ValueChanged -= handler;
+            return Observable.Create<object>(o => SubscribeToDependencyPropertyChanges(source, property, (s, e) => o.OnNext(e.NewValue)));
         }
 
         #region [Attached] private static Dictionary<DependencyProperty, EventProxy> EventProxies { get; set; }

@@ -4,9 +4,11 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reactive.Disposables;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls.Primitives;
+using System.Windows.Input;
 using Expression = System.Linq.Expressions.Expression;
 
 namespace NorthHorizon.Samples.InpcTemplate
@@ -221,13 +223,14 @@ namespace NorthHorizon.Samples.InpcTemplate
         {
             public event EventHandler Changed = delegate { };
 
-            private bool _isConstant;
+            private readonly SerialDisposable _disposable = new SerialDisposable();
+
             private readonly Func<T> _accessor;
             private T _current;
 
             public Watcher(Expression accessor)
             {
-                if (_isConstant = accessor.NodeType == ExpressionType.Constant)
+                if (accessor.NodeType == ExpressionType.Constant)
                 {
                     // do this outside the closure so we do it only once.
                     var value = (T)((ConstantExpression)accessor).Value;
@@ -239,18 +242,12 @@ namespace NorthHorizon.Samples.InpcTemplate
 
             public void SubscribeToCurrentNotifier()
             {
-                if (_current != null)
-                    Unsubscribe(_current);
-
                 _current = _accessor();
 
-                if (_current != null)
-                    Subscribe(_current);
+                _disposable.Disposable = _current != null ? Subscribe(_current) : null;
             }
 
-            protected abstract void Subscribe(T notifier);
-
-            protected abstract void Unsubscribe(T notifier);
+            protected abstract IDisposable Subscribe(T notifier);
 
             protected virtual void OnChanged()
             {
@@ -259,8 +256,7 @@ namespace NorthHorizon.Samples.InpcTemplate
 
             public virtual void Dispose()
             {
-                if (_current != null)
-                    Unsubscribe(_current);
+                _disposable.Dispose();
             }
 
             private static Func<T> GetAccessor(Expression expression)
@@ -326,14 +322,10 @@ namespace NorthHorizon.Samples.InpcTemplate
                 _memberName = notifyingMember.Member.Name;
             }
 
-            protected override void Subscribe(INotifyPropertyChanged notifier)
+            protected override IDisposable Subscribe(INotifyPropertyChanged notifier)
             {
                 notifier.PropertyChanged += OnNotifierPropertyChanged;
-            }
-
-            protected override void Unsubscribe(INotifyPropertyChanged notifier)
-            {
-                notifier.PropertyChanged -= OnNotifierPropertyChanged;
+                return Disposable.Create(() => notifier.PropertyChanged -= OnNotifierPropertyChanged);
             }
 
             private void OnNotifierPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -347,14 +339,10 @@ namespace NorthHorizon.Samples.InpcTemplate
         {
             public NotifyingCollectionWatcher(Expression expression) : base(expression) { }
 
-            protected override void Subscribe(INotifyCollectionChanged notifier)
+            protected override IDisposable Subscribe(INotifyCollectionChanged notifier)
             {
                 notifier.CollectionChanged += OnNotifierCollectionChanged;
-            }
-
-            protected override void Unsubscribe(INotifyCollectionChanged notifier)
-            {
-                notifier.CollectionChanged -= OnNotifierCollectionChanged;
+                return Disposable.Create(() => notifier.CollectionChanged -= OnNotifierCollectionChanged);
             }
 
             private void OnNotifierCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -368,14 +356,10 @@ namespace NorthHorizon.Samples.InpcTemplate
         {
             public BindingListWatcher(Expression accessor) : base(accessor) { }
 
-            protected override void Subscribe(IBindingList notifier)
+            protected override IDisposable Subscribe(IBindingList notifier)
             {
                 notifier.ListChanged += OnNotifierListChanged;
-            }
-
-            protected override void Unsubscribe(IBindingList notifier)
-            {
-                notifier.ListChanged -= OnNotifierListChanged;
+                return Disposable.Create(() => notifier.ListChanged -= OnNotifierListChanged);
             }
 
             private void OnNotifierListChanged(object sender, ListChangedEventArgs e)
@@ -401,14 +385,9 @@ namespace NorthHorizon.Samples.InpcTemplate
                 _property = property;
             }
 
-            protected override void Subscribe(DependencyObject notifier)
+            protected override IDisposable Subscribe(DependencyObject notifier)
             {
-                notifier.AddDependencyPropertyChangedHandler(_property, OnPropertyChanged);
-            }
-
-            protected override void Unsubscribe(DependencyObject notifier)
-            {
-                notifier.RemoveDependencyPropertyChangedHandler(_property, OnPropertyChanged);
+                return notifier.SubscribeToDependencyPropertyChanges(_property, OnPropertyChanged);
             }
 
             private void OnPropertyChanged(object sender, DependencyPropertyChangedEventArgs e)

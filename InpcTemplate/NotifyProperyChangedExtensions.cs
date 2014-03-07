@@ -29,7 +29,7 @@ namespace NorthHorizon.Samples.InpcTemplate
             if (propertySelector == null) throw new ArgumentNullException("propertySelector");
             if (onChanged == null) throw new ArgumentNullException("onChanged");
 
-            var subscribedPropertyName = GetPropertyName(propertySelector);
+            var subscribedPropertyName = ExpressionUtil.GetPropertyName(propertySelector);
 
             PropertyChangedEventHandler handler = (s, e) =>
             {
@@ -58,7 +58,7 @@ namespace NorthHorizon.Samples.InpcTemplate
             if (propertySelector == null) throw new ArgumentNullException("propertySelector");
             if (onChanging == null) throw new ArgumentNullException("onChanged");
 
-            var subscribedPropertyName = GetPropertyName(propertySelector);
+            var subscribedPropertyName = ExpressionUtil.GetPropertyName(propertySelector);
 
             PropertyChangingEventHandler handler = (s, e) =>
             {
@@ -82,7 +82,7 @@ namespace NorthHorizon.Samples.InpcTemplate
         public static IObservable<TProp> GetPropertyChanges<TSource, TProp>(this TSource source, Expression<Func<TSource, TProp>> propertySelector)
             where TSource : INotifyPropertyChanged
         {
-            var propertyName = GetPropertyName(propertySelector);
+            var propertyName = ExpressionUtil.GetPropertyName(propertySelector);
 
             var selector = new Lazy<Func<TSource, TProp>>(propertySelector.Compile, isThreadSafe: true);
 
@@ -99,18 +99,5 @@ namespace NorthHorizon.Samples.InpcTemplate
                 });
         }
 
-        private static string GetPropertyName<TSource, TProp>(Expression<Func<TSource, TProp>> propertySelector)
-        {
-            var memberExpr = propertySelector.Body as MemberExpression;
-
-            if (memberExpr == null) throw new ArgumentException("must be a member accessor", "propertySelector");
-
-            var propertyInfo = memberExpr.Member as PropertyInfo;
-
-            if (propertyInfo == null || propertyInfo.DeclaringType != typeof(TSource))
-                throw new ArgumentException("must yield a single property on the given object", "propertySelector");
-
-            return propertyInfo.Name;
-        }
     }
 }
