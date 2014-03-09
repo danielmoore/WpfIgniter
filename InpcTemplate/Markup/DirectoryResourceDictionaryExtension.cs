@@ -13,17 +13,42 @@ using System.Windows.Navigation;
 
 namespace NorthHorizon.Samples.InpcTemplate.Markup
 {
-    public class DirectoryResourceDictionaryExtension : MarkupExtension
+    /// <summary>
+    /// Provides a <see cref="ResourceDictionary" /> that has merged in resource dictionaries contained in a given folder.
+    /// </summary>
+    public sealed class DirectoryResourceDictionaryExtension : MarkupExtension
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DirectoryResourceDictionaryExtension"/> class.
+        /// </summary>
         public DirectoryResourceDictionaryExtension()
         {
             IsSubdirectoriesIncluded = true;
         }
 
+        /// <summary>
+        /// Gets or sets the directory to search.
+        /// </summary>
+        /// <value>
+        /// An absolute or relative URI locating the directory from which to load dictionaries.
+        /// </value>
         public Uri Directory { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether subdirectories should be included.
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if subdirectories should be included; otherwise, <c>false</c>. Defaults to <c>true</c>.
+        /// </value>
         public bool IsSubdirectoriesIncluded { get; set; }
 
+        /// <summary>
+        /// When implemented in a derived class, returns an object that is provided as the value of the target property for this markup extension.
+        /// </summary>
+        /// <param name="serviceProvider">A service provider helper that can provide services for the markup extension.</param>
+        /// <returns>
+        /// The object value to set on the property where the extension is applied.
+        /// </returns>
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
             var partUri = ResolveDirectoryUri(serviceProvider);
@@ -44,7 +69,10 @@ namespace NorthHorizon.Samples.InpcTemplate.Markup
 
                     if (resourceUri.StartsWith(partUri.OriginalString, StringComparison.OrdinalIgnoreCase) &&
                         (IsSubdirectoriesIncluded || resourceUri.IndexOf('/', partUri.OriginalString.Length) < 0))
-                        resources.MergedDictionaries.Add(new ResourceDictionary { Source = new Uri(Path.ChangeExtension(resourceUri, ".xaml"), UriKind.Relative) });
+                        resources.MergedDictionaries.Add(new ResourceDictionary
+                        {
+                            Source = new Uri(Path.ChangeExtension(resourceUri, ".xaml"), UriKind.Relative)
+                        });
                 }
             }
 
@@ -96,9 +124,10 @@ namespace NorthHorizon.Samples.InpcTemplate.Markup
         }
 
         private static readonly MethodInfo GetAssemblyNameAndPartMethodInfo = typeof(BaseUriHelper).GetMethod("GetAssemblyNameAndPart", BindingFlags.NonPublic | BindingFlags.Static);
+
         private static void GetAssemblyNameAndPart(Uri uri, out string partName, out string assemblyName, out string assemblyVersion, out string assemblyKey)
         {
-            var args = new object[] { uri, null, null, null, null };
+            var args = new object[] {uri, null, null, null, null};
             GetAssemblyNameAndPartMethodInfo.Invoke(null, args);
 
             partName = (string)args[1];
