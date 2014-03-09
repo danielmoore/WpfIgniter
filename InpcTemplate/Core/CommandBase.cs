@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace NorthHorizon.Samples.InpcTemplate
+namespace NorthHorizon.Samples.InpcTemplate.Core
 {
     /// <summary>
     /// Provides basic infrastructure for the implementation of <see cref="ICommand"/>.
     /// </summary>
     public abstract class CommandBase : ICommand
     {
-        private WeakEvent<EventHandler> _canExecuteChanged = new WeakEvent<EventHandler>();
+        private readonly WeakEvent<EventHandler> _canExecuteChanged = new WeakEvent<EventHandler>();
 
         internal CommandBase() { }
 

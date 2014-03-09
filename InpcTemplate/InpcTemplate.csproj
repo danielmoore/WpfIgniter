@@ -66,10 +66,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BindableBase.cs" />
-    <Compile Include="CommandBase.cs" />
+    <Compile Include="Core\CommandBase.cs" />
     <Compile Include="DelegateCommand.cs" />
+    <Compile Include="Core\DelegateCommandBase.cs" />
     <Compile Include="DependencyObjectExtensions.cs" />
     <Compile Include="ExpressionCommand.cs" />
+    <Compile Include="Core\ExpressionCommandBase.cs" />
     <Compile Include="ExpressionUtil.cs" />
     <Compile Include="Markup\DirectoryResourceDictionaryExtension.cs" />
     <Compile Include="Markup\Extensions.cs" />
