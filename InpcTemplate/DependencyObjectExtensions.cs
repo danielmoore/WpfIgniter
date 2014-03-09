@@ -7,8 +7,19 @@ using System.Windows.Data;
 
 namespace NorthHorizon.Samples.InpcTemplate
 {
+    /// <summary>
+    /// Extensions for working with <see cref="DependencyObject"/>s.
+    /// </summary>
     public static class DependencyObjectExtensions
     {
+        /// <summary>
+        /// Subscribes to changes of a dependency property.
+        /// </summary>
+        /// <param name="source">The source dependency object.</param>
+        /// <param name="property">The property to monitor for changes.</param>
+        /// <param name="handler">The handler to invoke when a change occurs.</param>
+        /// <returns>A token that, when disposed, unsubscribes the handler.</returns>
+        /// <exception cref="System.ArgumentNullException">source, property</exception>
         public static IDisposable SubscribeToDependencyPropertyChanges(this DependencyObject source, DependencyProperty property, DependencyPropertyChangedEventHandler handler)
         {
             if (source == null) throw new ArgumentNullException("source");
@@ -31,6 +42,12 @@ namespace NorthHorizon.Samples.InpcTemplate
             return Disposable.Create(() => proxy.ValueChanged -= handler);
         }
 
+        /// <summary>
+        /// Gets an observable stream of changes to a dependency property.
+        /// </summary>
+        /// <param name="source">The source dependency object.</param>
+        /// <param name="property">The property to monitor for changes.</param>
+        /// <returns>An observable stream that produces the values of the dependency property.</returns>
         public static IObservable<object> GetDependencyPropertyChanges(this DependencyObject source, DependencyProperty property)
         {
             return Observable.Create<object>(o => SubscribeToDependencyPropertyChanges(source, property, (s, e) => o.OnNext(e.NewValue)));
