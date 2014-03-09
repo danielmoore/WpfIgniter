@@ -1,0 +1,20 @@
+﻿<Window x:Class="Igniter.Tests.Live.SharedResourceDictionaryTestWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ign="http://schemas.northhorizon.net/igniter"
+        Title="SharedResourceDictionaryTestWindow" Height="300" Width="300">
+    <UniformGrid Columns="1">
+        <Border>
+            <Border.Resources>
+                <ign:SharedResourceDisctionary Source="testsharedresources.xaml"/>
+            </Border.Resources>
+            <Border Background="{StaticResource Brush1}"/>
+        </Border>
+        <Border>
+            <Border.Resources>
+                <ign:SharedResourceDisctionary Source="TESTSHAREDRESOURCES.XAML"/>
+            </Border.Resources>
+            <Border Background="{StaticResource Brush2}"/>
+        </Border>
+    </UniformGrid>
+</Window>

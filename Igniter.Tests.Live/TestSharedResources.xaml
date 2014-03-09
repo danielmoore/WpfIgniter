@@ -1,0 +1,7 @@
+﻿<live:TestResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:live="clr-namespace:Igniter.Tests.Live">
+    <SolidColorBrush x:Key="Brush1" Color="SteelBlue"/>
+    <SolidColorBrush x:Key="Brush2" Color="SpringGreen"/>
+</live:TestResourceDictionary>

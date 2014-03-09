@@ -1,0 +1,13 @@
+﻿<Window x:Class="Igniter.Tests.Live.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        SizeToContent="Height" Width="200"
+        Title="Igniter Tests">
+    <ItemsControl ItemsSource="{Binding Tests}" Margin="10">
+        <ItemsControl.ItemTemplate>
+            <DataTemplate>
+                <Button Content="{Binding TestName}" Command="{Binding RunCommand}"/>
+            </DataTemplate>
+        </ItemsControl.ItemTemplate>
+    </ItemsControl>
+</Window>

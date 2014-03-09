@@ -1,0 +1,66 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30110.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Igniter", "Igniter\Igniter.csproj", "{D6EFB1A2-D9C0-462D-A496-19F00B59BCD6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Igniter.Tests", "Igniter.Tests\Igniter.Tests.csproj", "{CB03F10F-AF84-429F-854D-31F50F36AA31}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{992E5933-249E-4745-9D9A-DB9C4266E992}"
+	ProjectSection(SolutionItems) = preProject
+		Igniter.vsmdi = Igniter.vsmdi
+		LICENSE.md = LICENSE.md
+		Local.testsettings = Local.testsettings
+		README.md = README.md
+		WpfIgniter.nuspec = WpfIgniter.nuspec
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Igniter.Tests.Live", "Igniter.Tests.Live\Igniter.Tests.Live.csproj", "{0744E3F5-6C99-4925-8FE6-6507C0963225}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|Mixed Platforms = Debug|Mixed Platforms
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|Mixed Platforms = Release|Mixed Platforms
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D6EFB1A2-D9C0-462D-A496-19F00B59BCD6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6EFB1A2-D9C0-462D-A496-19F00B59BCD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6EFB1A2-D9C0-462D-A496-19F00B59BCD6}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{D6EFB1A2-D9C0-462D-A496-19F00B59BCD6}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{D6EFB1A2-D9C0-462D-A496-19F00B59BCD6}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D6EFB1A2-D9C0-462D-A496-19F00B59BCD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6EFB1A2-D9C0-462D-A496-19F00B59BCD6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6EFB1A2-D9C0-462D-A496-19F00B59BCD6}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{D6EFB1A2-D9C0-462D-A496-19F00B59BCD6}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{D6EFB1A2-D9C0-462D-A496-19F00B59BCD6}.Release|x86.ActiveCfg = Release|Any CPU
+		{CB03F10F-AF84-429F-854D-31F50F36AA31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CB03F10F-AF84-429F-854D-31F50F36AA31}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CB03F10F-AF84-429F-854D-31F50F36AA31}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{CB03F10F-AF84-429F-854D-31F50F36AA31}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{CB03F10F-AF84-429F-854D-31F50F36AA31}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{CB03F10F-AF84-429F-854D-31F50F36AA31}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CB03F10F-AF84-429F-854D-31F50F36AA31}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CB03F10F-AF84-429F-854D-31F50F36AA31}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{CB03F10F-AF84-429F-854D-31F50F36AA31}.Release|x86.ActiveCfg = Release|Any CPU
+		{0744E3F5-6C99-4925-8FE6-6507C0963225}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{0744E3F5-6C99-4925-8FE6-6507C0963225}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{0744E3F5-6C99-4925-8FE6-6507C0963225}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{0744E3F5-6C99-4925-8FE6-6507C0963225}.Debug|x86.ActiveCfg = Debug|x86
+		{0744E3F5-6C99-4925-8FE6-6507C0963225}.Debug|x86.Build.0 = Debug|x86
+		{0744E3F5-6C99-4925-8FE6-6507C0963225}.Release|Any CPU.ActiveCfg = Release|x86
+		{0744E3F5-6C99-4925-8FE6-6507C0963225}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{0744E3F5-6C99-4925-8FE6-6507C0963225}.Release|x86.ActiveCfg = Release|x86
+		{0744E3F5-6C99-4925-8FE6-6507C0963225}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = Igniter.vsmdi
+	EndGlobalSection
+EndGlobal

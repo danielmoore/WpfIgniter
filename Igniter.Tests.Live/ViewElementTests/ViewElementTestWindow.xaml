@@ -1,0 +1,34 @@
+﻿<Window x:Class="Igniter.Tests.Live.ViewElementTests.ViewElementTestWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ign="http://schemas.northhorizon.net/igniter"
+        xmlns:local="clr-namespace:Igniter.Tests.Live.ViewElementTests"
+        Title="ViewElementTestWindow" Height="600" Width="400" Padding="5">
+    <UniformGrid Columns="1">
+        <GroupBox Header="Normal">
+            <ign:ViewElement ViewType="local:TestView1" ViewModelType="local:TestViewModel1"/>
+        </GroupBox>
+        
+        <GroupBox Header="Broken">
+            <ign:ViewElement ViewType="local:TestViewModel1" ViewModelType="local:TestView2"/>
+        </GroupBox>
+        
+        <GroupBox Header="Recreate">
+            <DockPanel>
+                <UniformGrid  DockPanel.Dock="Top"  Rows="1">
+                    <ComboBox DisplayMemberPath="Name" Name="ViewComboBox">
+                        <x:Type Type="local:TestView1"/>
+                        <x:Type Type="local:TestView2"/>
+                    </ComboBox>
+                    <ComboBox DisplayMemberPath="Name" Name="ViewModelComboBox">
+                        <x:Type Type="local:TestViewModel1"/>
+                        <x:Type Type="local:TestViewModel2"/>
+                    </ComboBox>
+                </UniformGrid>
+                <ign:ViewElement ViewType="{Binding SelectedItem, ElementName=ViewComboBox}"
+                                  ViewModelType="{Binding SelectedItem, ElementName=ViewModelComboBox}"
+                                  RecreationOptions="RecreateView"/>
+            </DockPanel>
+        </GroupBox>
+    </UniformGrid>
+</Window>
