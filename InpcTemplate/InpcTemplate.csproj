@@ -79,7 +79,7 @@
     <Compile Include="NotifyProperyChangedExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PropertyChangedEventArgs.cs" />
-    <Compile Include="WeakEvent.cs" />
+    <Compile Include="Core\WeakEvent.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">

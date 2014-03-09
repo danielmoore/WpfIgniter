@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace NorthHorizon.Samples.InpcTemplate
+namespace NorthHorizon.Samples.InpcTemplate.Core
 {
     /// <summary>
     /// Manages a list of weak references to delegates.
     /// </summary>
     /// <typeparam name="TDelegate">The type of the delegate.</typeparam>
-    public class WeakEvent<TDelegate> where TDelegate : class
+    public sealed class WeakEvent<TDelegate> where TDelegate : class
     {
         private readonly List<WeakReference> _delegates = new List<WeakReference>();
 
