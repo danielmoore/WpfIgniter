@@ -36,7 +36,6 @@ namespace NorthHorizon.Samples.InpcTemplate
         protected void SetProperty<T>(ref T backingStore, T value, Action onChanged = null, Action<T> onChanging = null, Func<T, T> coerceValue = null, [CallerMemberName]string propertyName = null)
         {
             if (string.IsNullOrEmpty(propertyName)) throw new ArgumentNullException("propertyName");
-            VerifyCallerIsProperty(propertyName);
 
             var effectiveValue = coerceValue != null ? coerceValue(value) : value;
 
@@ -60,20 +59,6 @@ namespace NorthHorizon.Samples.InpcTemplate
             if (onChanged != null) onChanged();
 
             OnPropertyChanged(propertyName, oldValue, effectiveValue);
-        }
-
-        [Conditional("DEBUG")]
-        private void VerifyCallerIsProperty(string propertyName)
-        {
-            var stackTrace = new StackTrace();
-            var frame = stackTrace.GetFrames()[2];
-            var caller = frame.GetMethod();
-
-            // Explicitly implemented interface props will show the fullname here. Need to trim off the front for a clean compare.
-            var callerName = caller.IsHideBySig ? caller.Name.Substring(caller.Name.LastIndexOf('.') + 1) : caller.Name;
-
-            if (!callerName.Equals("set_" + propertyName, StringComparison.InvariantCulture))
-                throw new InvalidOperationException(string.Format("Called SetProperty for {0} from {1}", propertyName, caller.Name));
         }
 
         /// <summary>
