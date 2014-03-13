@@ -12,7 +12,6 @@ namespace Igniter
     {
         private readonly Action _onExecute;
         private readonly Func<bool> _onCanExecute;
-        private bool? _canExecute;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ExpressionCommand"/> class.
@@ -40,16 +39,6 @@ namespace Igniter
         }
 
         /// <summary>
-        /// Called when <see cref="CanExecute" /> should be queried again.
-        /// </summary>
-        protected override void OnCanExecuteChanged()
-        {
-            _canExecute = null;
-
-            base.OnCanExecuteChanged();
-        }
-
-        /// <summary>
         /// Defines the method that determines whether the command can execute in its current state.
         /// </summary>
         /// <param name="parameter">Data used by the command.  If the command does not require data to be passed, this object can be set to null.</param>
@@ -58,10 +47,9 @@ namespace Igniter
         /// </returns>
         public override bool CanExecute(object parameter)
         {
-            if (_canExecute == null)
-                _canExecute = _onCanExecute();
+            // NOTE: not caching for consistency with ExpressionCommand<T>.CanExecute.
 
-            return _canExecute.Value;
+            return _onCanExecute();
         }
     }
 
@@ -72,9 +60,6 @@ namespace Igniter
     {
         private readonly Action<T> _onExecute;
         private readonly Func<T, bool> _onCanExecute;
-
-        private bool? _canExecute;
-        private WeakReference _lastParameter;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ExpressionCommand&lt;T&gt;"/> class.
@@ -111,16 +96,6 @@ namespace Igniter
         }
 
         /// <summary>
-        /// Called when <see cref="CanExecute" /> should be queried again.
-        /// </summary>
-        protected override void OnCanExecuteChanged()
-        {
-            _canExecute = null;
-
-            base.OnCanExecuteChanged();
-        }
-
-        /// <summary>
         /// Defines the method that determines whether the command can execute in its current state.
         /// </summary>
         /// <param name="parameter">Data used by the command.  If the command does not require data to be passed, this object can be set to null.</param>
@@ -129,16 +104,11 @@ namespace Igniter
         /// </returns>
         public override bool CanExecute(object parameter)
         {
-            if (_canExecute != null &&
-                (_lastParameter == null && parameter == null ||
-                 _lastParameter != null && _lastParameter.IsAlive && parameter == _lastParameter.Target))
-                return _canExecute.Value;
+            // Sadly, we can't cache the result of CanExecute because we don't know how many
+            // elements are referencing this command and each can have a different parameter.
 
-            _lastParameter = new WeakReference(parameter);
             T typedParameter;
-            _canExecute = TryConvert(parameter, out typedParameter) && _onCanExecute(typedParameter);
-
-            return _canExecute.Value;
+            return TryConvert(parameter, out typedParameter) && _onCanExecute(typedParameter);
         }
     }
 }
