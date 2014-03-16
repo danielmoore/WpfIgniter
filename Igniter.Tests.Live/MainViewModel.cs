@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Linq;
+using System.Text;
 using System.Windows;
 
 namespace Igniter.Tests.Live
@@ -19,6 +20,12 @@ namespace Igniter.Tests.Live
                 {
                     TestName = ((LiveTestAttribute)Attribute.GetCustomAttribute(t, typeof(LiveTestAttribute))).Name,
                     RunCommand = new DelegateCommand(() => ((Window)Activator.CreateInstance(t)).Show())
+                })
+                .Concat(new[] {
+                    new {
+                        TestName = "Garbage Collect",
+                        RunCommand = new DelegateCommand(GC.Collect)
+                    }
                 });
         }
 

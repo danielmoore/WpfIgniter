@@ -10,20 +10,22 @@ using System.Text;
 using System.Windows;
 using System.Windows.Markup;
 using System.Windows.Navigation;
+using Igniter.Core;
 
-namespace Igniter.Markup
+namespace Igniter.Behaviors
 {
     /// <summary>
     /// Provides a <see cref="ResourceDictionary" /> that has merged in resource dictionaries contained in a given folder.
     /// </summary>
-    public sealed class DirectoryResourceDictionaryExtension : MarkupExtension
+    public sealed class DirectoryResourcesBehavior : ResourceBehvior
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="DirectoryResourceDictionaryExtension"/> class.
+        /// Initializes a new instance of the <see cref="DirectoryResourcesBehavior"/> class.
         /// </summary>
-        public DirectoryResourceDictionaryExtension()
+        public DirectoryResourcesBehavior()
         {
             IsSubdirectoriesIncluded = true;
+            IsShared = true;
         }
 
         /// <summary>
@@ -43,15 +45,16 @@ namespace Igniter.Markup
         public bool IsSubdirectoriesIncluded { get; set; }
 
         /// <summary>
-        /// When implemented in a derived class, returns an object that is provided as the value of the target property for this markup extension.
+        /// Gets or sets a value indicating whether to use shared resources.
         /// </summary>
-        /// <param name="serviceProvider">A service provider helper that can provide services for the markup extension.</param>
-        /// <returns>
-        /// The object value to set on the property where the extension is applied.
-        /// </returns>
-        public override object ProvideValue(IServiceProvider serviceProvider)
+        /// <value>
+        ///   <c>true</c> if shared resources should be used; otherwise, <c>false</c>.
+        /// </value>
+        public bool IsShared { get; set; }
+
+        protected override ResourceDictionary ProvideAttachedResources(IUriContext uriContext)
         {
-            var partUri = ResolveDirectoryUri(serviceProvider);
+            var partUri = ResolveDirectoryUri();
 
             var resourceMgr = GetResourceManager(partUri);
 
@@ -69,28 +72,31 @@ namespace Igniter.Markup
 
                     if (resourceUri.StartsWith(partUri.OriginalString, StringComparison.OrdinalIgnoreCase) &&
                         (IsSubdirectoriesIncluded || resourceUri.IndexOf('/', partUri.OriginalString.Length) < 0))
-                        resources.MergedDictionaries.Add(new ResourceDictionary
-                        {
-                            Source = new Uri(Path.ChangeExtension(resourceUri, ".xaml"), UriKind.Relative)
-                        });
+                    {
+                        var uri = new Uri(Path.ChangeExtension(resourceUri, ".xaml"), UriKind.Relative);
+
+                        var uriResources = IsShared ? ResourceCache.GetOrCreate(uri) : new ResourceDictionary {Source = uri};
+
+                        resources.MergedDictionaries.Add(uriResources);
+                    }
                 }
             }
 
             return resources;
         }
 
-        private Uri ResolveDirectoryUri(IServiceProvider serviceProvider)
+        private Uri ResolveDirectoryUri()
         {
             if (Directory == null || Directory.OriginalString == ".")
             {
-                var baseUri = serviceProvider.GetService<IUriContext>().BaseUri;
+                var baseUri = ((IUriContext)this).BaseUri;
                 var directoryUri = new Uri(baseUri, Path.GetDirectoryName(baseUri.AbsolutePath) + '/');
 
                 return PackUriHelper.GetPartUri(directoryUri);
             }
 
             var directory = Directory.OriginalString.EndsWith("/") ? Directory : new Uri(Directory.OriginalString + '/', UriKind.RelativeOrAbsolute);
-            return serviceProvider.GetService<IUriContext>().ResolvePartUri(directory);
+            return this.ResolvePartUri(directory);
         }
 
         private static ResourceManager GetResourceManager(Uri partUri)

@@ -1,5 +1,7 @@
 # Igniter Namespace
 
+All Igniter namespaces are available in the `ign:` XML namespace (http://schemas.northhorizon.net/igniter) for convenience.
+
 ## BindableBase
 
 `BindableBase` provides a simple base class on which to build view models that update views when properties change.
@@ -500,7 +502,6 @@ viewFactory.Create(
 
 Before `ViewElement` can be used, a `ViewFactory` must be attached to an ancestor in the visual tree. This is done automatically by [`ViewFactory.Create`][]. If you have a parent tree that does not have a `ViewFactory` attached, you can attach one manually by calling `viewFactory.Attach(frameworkElement)`. Note that `Attach` is on `ViewFactory` itself, **not** `IViewFactory`.
 
-For convenience, `ViewElement` lives in the Igniter XML namespace (http://schemas.northhorizon.net/igniter) and defaults to the prefix `ign:`.
 
 ```xml
 <UserControl xmlns:ign="http://schemas.northhorizon.net/igniter">
@@ -554,6 +555,8 @@ Finally, `ViewElement` has an attribute called `RecreationOptions` to configure 
 | `RecreateViewModel`               | `ViewModel`, `ViewModelType`                      | View Model           |
 | `RecreateView, RecreateViewModel` | `View`, `ViewType`,  `ViewModel`, `ViewModelType` | View, View Model     |
 
+# Igniter.Markup Namespace
+
 ## RootViewModelBinding
 
 `RootViewModelBindingExtension` is a markup extension allowing user code to access the view model bound to the current view regardless of what the current data context is.
@@ -569,7 +572,61 @@ Finally, `ViewElement` has an attribute called `RecreationOptions` to configure 
 
 A `RootViewModelBinding` supports virtually all of the properties of a normal `Binding` except for, of course, `Source`, `RelativeSource`, and `ElementName`. 
 
+# Igniter.Behaviors Namespace
+
+## SharedResourceBehavior
+
+The `SharedResourceBehavior` attached behavior allows multiple `FrameworkElement`s to share resource dictionaries so that each reference does not re-instantiate that dictionary's resources. 
+
+```xml
+<UserControl xmlns:ign="http://schemas.northhorizon.net/igniter"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity">
+    <i:Interaction.Behaviors>
+        <ign:SharedResourceBehavior Source="../path/to/resources.xaml"/>
+    </i:Interaction.Behaviors>
+
+    <Border Background="{StaticResource MyBackgroundResource}"/>
+</UserControl>
+```
+
+The `SharedResourceBehavior` retrieves the desired dictionary from the cache and adds it to the `Resources` of its associated object when it is attached. 
+
+The references to dictionaries are weak, so once all referencing views are garbage-collectable, the shared resources will be garbage-collectable as well. Resources that should be available permanently in the application should be added to the App resources.
+
+## DirectoryResources&#8203;Behavior
+
+To refer to all of the resource dictionaries in a given directory and (optionally) its subdirectories, use a `DirectoryResourcesBehavior` attached behavior. The behavior can be attached to any `FrameworkElement` and merges in all of the XAML resources found in the folder.
+
+```xml
+<UserControl xmlns:ign="http://schemas.northhorizon.net/igniter"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity">
+    <i:Interaction.Behaviors>
+        <ign:DirectoryResourcesBehavior Directory="../path/to/resources_folder"/>
+    </i:Interaction.Behaviors>
+
+    <Border Background="{StaticResource MyBackgroundResource}"/>
+</UserControl>
+```
+
+<div class="clear-both"></div>
+
+By default, `SharedResourcesBehavior` includes subdirectories and uses the same cache as [`SharedResourceBehavior`][] to add resources. These defaults can be overridden with the `IsSubdirectoriesIncluded` and `IsShared` attributes, respectively.
+
+```xml
+<UserControl xmlns:ign="http://schemas.northhorizon.net/igniter"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity">
+    <i:Interaction.Behaviors>
+        <ign:DirectoryResourcesBehavior Directory="../path/to/resources_folder"
+                                        IsSubdirectoriesIncluded="false"
+                                        IsShared="false"/>
+    </i:Interaction.Behaviors>
+
+    <Border Background="{StaticResource MyBackgroundResource}"/>
+</UserControl>
+```
+
 [`ViewFactory.Create`]: #ViewFactory.Create
 [creation-strategies]: #creation-strategies
 [`ExpressionCommand`]: #expressioncommand
 [`SubscribeToDependencyPropertyChanges`]: #SubscribeToDependencyPropertyChanges
+[`SharedResourceBehavior`]: #SharedResourceBehavior

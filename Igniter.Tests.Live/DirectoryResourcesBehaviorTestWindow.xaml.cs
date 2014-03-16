@@ -3,12 +3,12 @@
 namespace Igniter.Tests.Live
 {
     /// <summary>
-    /// Interaction logic for FolderResourceDictionaryTestWindow.xaml
+    /// Interaction logic for DirectoryResourcesBehaviorTestWindow.xaml
     /// </summary>
     [LiveTest("Folder Resource Dictionary")]
-    public partial class FolderResourceDictionaryTestWindow : Window
+    public partial class DirectoryResourcesBehaviorTestWindow : Window
     {
-        public FolderResourceDictionaryTestWindow()
+        public DirectoryResourcesBehaviorTestWindow()
         {
             InitializeComponent();
         }

@@ -15,9 +15,11 @@
             <group targetFramework="net40-client">
                 <dependency id="Rx-Linq" version="[2.0, 3.0.0.0)" />
                 <dependency id="Microsoft.Bcl" version="1.1.6" />
+                <dependency id="Expression.Blend.Sdk" version="[1.0.2, 2.0.0)" />
             </group>
             <group targetFramework="net45-client">
                 <dependency id="Rx-Linq" version="[2.0, 3.0.0.0)" />
+                <dependency id="Expression.Blend.Sdk" version="[1.0.2, 2.0.0)" />
             </group>
         </dependencies>
         <frameworkAssemblies>

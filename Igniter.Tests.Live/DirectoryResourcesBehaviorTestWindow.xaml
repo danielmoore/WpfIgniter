@@ -1,0 +1,16 @@
+﻿<Window x:Class="Igniter.Tests.Live.DirectoryResourcesBehaviorTestWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ign="http://schemas.northhorizon.net/igniter"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        Title="DirectoryResourcesBehaviorTestWindow" Height="300" Width="300">
+    <i:Interaction.Behaviors>
+        <ign:DirectoryResourcesBehavior Directory="DirectoryResourcesBehaviorTestFolder" IsSubdirectoriesIncluded="False"/>
+    </i:Interaction.Behaviors>
+    <UniformGrid Columns="1">
+        <Border Background="{StaticResource Color1}"/>
+        <Border Background="{StaticResource Color2}"/>
+        <Border Background="{DynamicResource Color1}"/>
+        <Border Background="{DynamicResource Color2}"/>
+    </UniformGrid>
+</Window>

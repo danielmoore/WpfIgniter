@@ -184,17 +184,14 @@ To work around these problems, Igniter has the `RootViewModelBindingExtension` t
 
 An unseen peril of WPF is that if you source a `ResourceDictionary` in more than one place, all of its definitions are instantiated *once per reference*. For more complex apps with many resources this can be a disaster for memory usage.
 
-Using Igniter, you can easily share resources by simply using the `SharedResourceDictionaryExtension` wherever you would normally use a `<ResourceDictionary Source="..."/>`:
+Using Igniter, you can easily share resources by simply attaching the `SharedResourceBehavior` to any `FrameworkElement` where you would normally use a `<ResourceDictionary Source="..."/>`.
 
 ```xml
-<UserControl xmlns:ign="http://schemas.northhorizon.net/igniter">
-    <UserControl.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ign:SharedResourceDictionary Source="../path/to/resources.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </UserControl.Resources>
+<UserControl xmlns:ign="http://schemas.northhorizon.net/igniter"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity">
+    <i:Interaction.Behaviors>
+        <ign:SharedResourceBehavior Source="../path/to/resources.xaml"/>
+    </i:Interaction.Behaviors>
 
     <Border Background="{StaticResource MyBackgroundResource}"/>
 </UserControl>
@@ -204,4 +201,15 @@ Using Igniter, you can easily share resources by simply using the `SharedResourc
 
 Some apps with many resources choose to break up those resources into separate files for better organization. The major downside to this approach is that they typically end up with "index.xaml" files that simply list the contents of the folder.
 
-This can be solved more elegantly with `DirectoryResourceDictionaryExtension`. Like `SharedResourceDictionaryExtension`, it may be used anywhere you would normally use a `<ResourceDictionary Source="..."/>`.
+This can be solved more elegantly with `DirectoryResourcesBehavior`. Like `SharedResourceBehavior`, it may be attached to any `FrameworkElement` where you would normally use a `<ResourceDictionary Source="..."/>`.
+
+```xml
+<UserControl xmlns:ign="http://schemas.northhorizon.net/igniter"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity">
+    <i:Interaction.Behaviors>
+        <ign:DirectoryResourcesBehavior Directory="../path/to/resources_folder"/>
+    </i:Interaction.Behaviors>
+
+    <Border Background="{StaticResource MyBackgroundResource}"/>
+</UserControl>
+```

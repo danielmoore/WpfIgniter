@@ -12,4 +12,5 @@ using System.Windows.Markup;
 [assembly: XmlnsPrefix("http://schemas.northhorizon.net/igniter", "ign")]
 [assembly: XmlnsDefinition("http://schemas.northhorizon.net/igniter", "Igniter")]
 [assembly: XmlnsDefinition("http://schemas.northhorizon.net/igniter", "Igniter.Markup")]
+[assembly: XmlnsDefinition("http://schemas.northhorizon.net/igniter", "Igniter.Behaviors")]
 [assembly: XmlnsDefinition("http://schemas.northhorizon.net/igniter", "Igniter.Composition")]

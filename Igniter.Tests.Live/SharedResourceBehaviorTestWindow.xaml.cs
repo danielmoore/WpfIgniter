@@ -3,9 +3,9 @@
 namespace Igniter.Tests.Live
 {
    [LiveTest("Shared Resource Dictionary")]
-    public partial class SharedResourceDictionaryTestWindow : Window
+    public partial class SharedResourceBehaviorTestWindow : Window
     {
-        public SharedResourceDictionaryTestWindow()
+        public SharedResourceBehaviorTestWindow()
         {
             InitializeComponent();
         }
