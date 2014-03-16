@@ -32,12 +32,7 @@ using System.Windows.Markup;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.1")]
-
-[assembly: XmlnsPrefix("http://schemas.northhorizon.net/samples/inpctemplate", "inpc")]
-[assembly: XmlnsDefinition("http://schemas.northhorizon.net/samples/inpctemplate", "NorthHorizon.Samples.InpcTemplate")]
-[assembly: XmlnsDefinition("http://schemas.northhorizon.net/samples/inpctemplate", "NorthHorizon.Samples.InpcTemplate.Markup")]
-[assembly: XmlnsDefinition("http://schemas.northhorizon.net/samples/inpctemplate", "NorthHorizon.Samples.InpcTemplate.Composition")]
+[assembly: AssemblyVersion("1.0.2")]
 
 [assembly: XmlnsPrefix("http://schemas.northhorizon.net/igniter", "ign")]
 [assembly: XmlnsDefinition("http://schemas.northhorizon.net/igniter", "Igniter")]
