@@ -71,7 +71,7 @@
     <Compile Include="ExpressionUtil.cs" />
     <Compile Include="Composition\IViewFactoryResolver.cs" />
     <Compile Include="Markup\DirectoryResourceDictionaryExtension.cs" />
-    <Compile Include="Markup\Extensions.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="Markup\RootViewModelBindingExtension.cs" />
     <Compile Include="Markup\SharedResourceDisctionaryExtension.cs" />
     <Compile Include="NotifyProperyChangedExtensions.cs" />

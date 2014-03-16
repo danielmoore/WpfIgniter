@@ -2,7 +2,7 @@
 using System.IO.Packaging;
 using System.Windows.Markup;
 
-namespace Igniter.Markup
+namespace Igniter
 {
     /// <summary>
     /// Miscellaneous extension methods.
