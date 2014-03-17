@@ -1,0 +1,11 @@
+using System.Reflection;
+using System.Runtime.InteropServices;
+using System.Windows.Markup;
+
+[assembly: AssemblyProduct("Igniter")]
+[assembly: AssemblyConfiguration("Release")]
+[assembly: AssemblyCompany("North Horizon")]
+[assembly: AssemblyCopyright("Copyright © Daniel Moore $((Get-Date).Year)")]
+[assembly: AssemblyCulture("")] // main (not satellite) assembly, no culture. 
+
+[assembly: AssemblyVersion("$version")]

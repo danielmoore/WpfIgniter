@@ -7,3 +7,5 @@
 TestResults
 _ReSharper.*
 *.cache
+
+/build

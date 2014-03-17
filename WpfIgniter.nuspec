@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
     <metadata>
         <id>WpfIgniter</id>
-        <version>1.0.2</version>
+        <version>1.0.4</version>
         <title>WPF Igniter</title>
         <authors>Daniel Moore &lt;polaris@northhorizon.net&gt;</authors>
         <licenseUrl>https://github.com/danielmoore/WpfIgniter/blob/master/LICENSE.md</licenseUrl>
@@ -12,11 +12,11 @@
         <language>en-US</language>
         <tags>wpf inpc INotifyPropertyChanged binding mvvm</tags>
         <dependencies>
-            <group targetFramework=".NETFramework4.0-Cleint">
+            <group targetFramework="net40-client">
                 <dependency id="Rx-Linq" version="[2.0, 3.0.0.0)" />
-                <dependency id="Microsoft.Bcl" version="1.1" />
+                <dependency id="Microsoft.Bcl" version="1.1.6" />
             </group>
-            <group targetFramework=".NETFramework4.5-Client">
+            <group targetFramework="net45-client">
                 <dependency id="Rx-Linq" version="[2.0, 3.0.0.0)" />
             </group>
         </dependencies>
@@ -31,5 +31,6 @@
     <files>
         <file src="Igniter\bin\Release\Igniter.dll" target="lib\net40-client\Igniter.dll" />
         <file src="Igniter\bin\Release\Igniter.pdb" target="lib\net40-client\Igniter.pdb" />
+        <file src="Igniter\bin\Release\Igniter.xml" target="lib\net40-client\Igniter.xml" />
     </files>
 </package>

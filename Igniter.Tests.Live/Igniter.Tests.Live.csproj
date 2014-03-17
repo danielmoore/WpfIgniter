@@ -76,6 +76,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="..\CommonAssemblyInfo.cs">
+      <Link>Properties\CommonAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="CommandParameterTestViewModel.cs" />
     <Compile Include="CommandParameterTestWindow.xaml.cs">
       <DependentUpon>CommandParameterTestWindow.xaml</DependentUpon>
