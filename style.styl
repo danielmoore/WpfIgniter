@@ -1,0 +1,83 @@
+// Fonts
+$body-font = Helvetica Neue, Open Sans, sans-serif
+$mono-font = Menlo, monospace
+
+// Margins
+$pad = 40px      // Space between things
+$sidepad = 30px  // Padding to the left of the sidebar
+$minipad = 20px  // Space for mobile
+$vmargin = 10px  // Margin between blocks
+
+// Colors
+$offwhite = #f3f6fb
+$grey = #9090aa
+$txt = #505050
+$accent = #3cc * 0.85
+$line = #e4e7ec * 0.98
+
+// Misc
+$shadow-str = 0.1
+
+// Dimensions
+$sidebar-width = 230px
+$content-width = 550px
+$pre-width = 380px
+
+body:not(.no-literate) .content 
+  > pre
+      + p, ul, ol 
+        clear: left
+
+.content
+  ul, ol
+    padding-left: 60px !important
+    margin-left: 0px;
+
+    ul, ol
+      padding-left: 20px !important
+
+div.clear-both
+  border: none
+  padding: 0
+  margin: 0
+  clear: both
+
+table
+  box-sizing: border-box
+  width: $content-width
+
+  th
+    font-weight: bold
+    border-bottom: 1px solid $accent
+
+    &:not(:first-child)
+      text-align: center
+
+  tr:not(:last-child) > td
+    border-bottom: 1px solid $line
+
+  th, td
+    padding: 2px 
+
+    &:not(:last-child)
+      border-right: 1px solid $line
+
+.menu a
+  width: 100%
+
+  &.active:after
+    right: -10px
+
+@media (min-width: 1180px) /* Big desktop */
+  body:not(.no-literate)
+    table
+      padding-left: $pad
+      float: left
+      clear: left
+
+p.footnote
+  font-size: 0.85em
+
+sup
+  vertical-align: super
+  font-size: 0.85em
