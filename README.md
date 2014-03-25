@@ -32,13 +32,15 @@ public class MyViewModel : BindableBase {
 
 #### Commands
 
-Most modern WPF applications make use of Prism's `DelegateCommand` or a similar class that wraps an `Action` or a `Action<object>` in an `ICommand` interface. One of the major drawbacks of these classes is that they rely on [`CommandManager.RequerySuggested`](http://msdn.microsoft.com/en-us/library/system.windows.input.commandmanager.requerysuggested(v=vs.110).aspx), which admits:
+Most modern WPF applications make use of Prism's `DelegateCommand` or a similar class that wraps an `Action` or a `Action<object>` in an `ICommand` interface. One of the major drawbacks of these classes is that they rely on `CommandManager.RequerySuggested`, which [admits][invalidaterequerysuggested]:
 
 >The CommandManager only pays attention to certain conditions in determining when the command target has changed, such as change in keyboard focus. In situations where the CommandManager does not sufficiently determine a change in conditions that cause a command to not be able to execute, InvalidateRequerySuggested can be called to force the CommandManager to raise the RequerySuggested event.
 
 So, if your command's `OnCanExecute` is dependent on, say, *changes in your view model*, your command will remain enabled or disabled *until a UI event occurs* or you call a non-UI static method in your view model, breaking the MVVM pattern.
 
 Igniter solves this problem in two ways, depending on your needs.
+
+[invalidaterequerysuggested]: http://msdn.microsoft.com/en-us/library/system.windows.input.commandmanager.invalidaterequerysuggested(v=vs.110).aspx
 
 ###### Expression Command
 
