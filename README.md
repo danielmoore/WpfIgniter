@@ -42,7 +42,7 @@ Igniter solves this problem in two ways, depending on your needs.
 
 ###### Expression Command
 
-An `ExpressionCommand` is set up like any other command:
+An `ExpressionCommand` is set up like any other command. 
 
 ```csharp
 public class MyViewModel : BindableBase {
@@ -65,7 +65,7 @@ public class MyViewModel : BindableBase {
 }
 ```
 
-In this case, `AddCommand` will only be enabled if all of the following are true:
+In this example, `AddCommand` will only be enabled if all of the following are true:
 
 - the associated `CommandParameter` is convertible to an `int` (the string "123" is convertible, for instance)
 - the value of the converted `CommandParameter` is greater than 0
