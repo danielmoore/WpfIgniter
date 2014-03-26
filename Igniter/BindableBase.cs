@@ -93,9 +93,18 @@ namespace Igniter
         /// Raises the <see cref="E:PropertyChanging"/> event.
         /// </summary>
         /// <param name="propertyName">The name of the property.</param>
-        protected virtual void OnPropertyChanging(string propertyName)
+        protected void OnPropertyChanging(string propertyName)
         {
-            PropertyChanging(this, new PropertyChangingEventArgs(propertyName));
+            OnPropertyChanging(new PropertyChangingEventArgs(propertyName));
+        }
+
+        /// <summary>
+        /// Raises the <see cref="E:PropertyChanging"/> event.
+        /// </summary>
+        /// <param name="args">The <see cref="System.ComponentModel.PropertyChangingEventArgs"/> instance containing the event data.</param>
+        protected virtual void OnPropertyChanging(PropertyChangingEventArgs args)
+        {
+            PropertyChanging(this, args);
         }
 
         private class PropertyChangedEventManagerProxy
