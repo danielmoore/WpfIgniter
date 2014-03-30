@@ -10,7 +10,7 @@
 }
 
 task Clean {
-    rm -Recurse -Force $outDir
+    rm -Recurse -Force $outDir -ErrorAction Ignore
     Run-MsBuild 'Clean'
 }
 
@@ -34,6 +34,7 @@ task Publish -depends Package {
     Exec { nuget push (Join-Path $outDir '*.nupkg') -NonInteractive }
 }
 
+task default -depends Compile
 
 function Run-MsBuild($task) {
     Exec { 
