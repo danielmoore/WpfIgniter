@@ -17,6 +17,8 @@ task Clean {
 task Update-Version {
     [xml]$nusepc = Get-Content $nuspecPath
 
+    echo "Setting version to '$($nuspec.package.metadata.version)'"
+
     Expand-Template $asmInfoTemplatePath {
         $version = $nuspec.package.metadata.version
     }
@@ -55,6 +57,6 @@ function Expand-Template([string]$TemplateFilePath, [ScriptBlock]$SetProperties)
         . $SetProperties
 
         Invoke-Expression "@`"`r`n$([IO.File]::ReadAllText($TemplateFilePath))`r`n`"@" | `
-            Out-File -Encoding utf8 -FilePath $targetFilePath
+            Out-File -Encoding utf8 -FilePath $targetFilePath -Force
     }
 }
