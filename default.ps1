@@ -15,9 +15,11 @@ task Clean {
 }
 
 task Update-Version {
-    [xml]$nusepc = Get-Content $nuspecPath
+    Write-Debug "Reading version from `"$nuspecPath`""
 
-    echo "Setting version to '$($nuspec.package.metadata.version)'"
+    [xml]$nuspec = Get-Content $nuspecPath
+
+    Write-Host "Setting version to '$($nuspec.package.metadata.version)'"
 
     Expand-Template $asmInfoTemplatePath {
         $version = $nuspec.package.metadata.version
