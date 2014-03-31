@@ -31,8 +31,9 @@
         </frameworkAssemblies>
     </metadata>
     <files>
-        <file src="Igniter\bin\Release\Igniter.dll" target="lib\net40-client\Igniter.dll" />
-        <file src="Igniter\bin\Release\Igniter.pdb" target="lib\net40-client\Igniter.pdb" />
-        <file src="Igniter\bin\Release\Igniter.xml" target="lib\net40-client\Igniter.xml" />
+        <file src="build\Igniter.dll" target="lib\net40-client\Igniter.dll" />
+        <file src="build\Igniter.dll" target="lib\net40-client\Igniter.dll.config" />
+        <file src="build\Igniter.pdb" target="lib\net40-client\Igniter.pdb" />
+        <file src="build\Igniter.xml" target="lib\net40-client\Igniter.xml" />
     </files>
 </package>
