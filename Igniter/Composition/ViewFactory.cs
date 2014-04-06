@@ -49,7 +49,7 @@ namespace Igniter.Composition
             where TViewModel : class
         {
             Create(ref view, viewCreationStrategy);
-            Create(ref viewModel, viewCreationStrategy);
+            Create(ref viewModel, viewModelCreationStrategy);
             Bind(view, viewModel);
         }
 
@@ -70,7 +70,7 @@ namespace Igniter.Composition
             where TViewModel : class
         {
             Create(typeof (TView), ref view, viewCreationStrategy);
-            Create(ref viewModel, viewCreationStrategy);
+            Create(ref viewModel, viewModelCreationStrategy);
             Bind(view, viewModel);
         }
 
@@ -91,7 +91,7 @@ namespace Igniter.Composition
         {
             object untypedView = view;
             Create(viewType, ref untypedView, viewCreationStrategy);
-            Create(viewModelType, ref viewModel, viewCreationStrategy);
+            Create(viewModelType, ref viewModel, viewModelCreationStrategy);
             view = (FrameworkElement) untypedView;
 
             Bind(view, viewModel);
