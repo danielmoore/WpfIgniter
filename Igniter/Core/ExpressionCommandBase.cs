@@ -328,7 +328,8 @@ namespace Igniter.Core
 
             protected override Expression VisitMethodCall(MethodCallExpression node)
             {
-                RegisterNotifyingCollection(node.Object);
+                if (node.Object != null) // Is this a static method call?
+                    RegisterNotifyingCollection(node.Object);
 
                 return base.VisitMethodCall(node);
             }

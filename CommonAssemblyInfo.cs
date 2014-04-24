@@ -8,5 +8,5 @@ using System.Windows.Markup;
 [assembly: AssemblyCopyright("Copyright © Daniel Moore 2014")]
 [assembly: AssemblyCulture("")] // main (not satellite) assembly, no culture. 
 
-[assembly: AssemblyVersion("2.0.0")]
+[assembly: AssemblyVersion("2.0.2")]
 
