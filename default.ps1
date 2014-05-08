@@ -1,6 +1,6 @@
 ﻿properties {
     $buildDir = Split-Path $psake.build_script_file
-    $outDir = Join-Path $buildDir build
+    $outDir = Join-Path $buildDir build/
     $nuspecPath = Join-Path $buildDir WpfIgniter.nuspec
     $asmInfoTemplatePath = Join-Path $buildDir CommonAssemblyInfo.cs.pstemplate
     $toolsDirPath = Join-Path $buildDir tools
@@ -41,7 +41,7 @@ task Publish -depends Package {
 task default -depends Compile
 
 function Run-MsBuild($task) {
-    Exec { 
+    Exec {
         msbuild "$buildDir\WpfIgniter.sln" `
             /nologo `
             /t:$task `
@@ -54,7 +54,7 @@ function Run-MsBuild($task) {
 function Expand-Template([string]$TemplateFilePath, [ScriptBlock]$SetProperties) {
     $targetFileName = [IO.Path]::GetFileNameWithoutExtension($TemplateFilePath)
     $targetFilePath = Join-Path $(Split-Path $TemplateFilePath) $targetFileName
-        
+
     Exec {
         . $SetProperties
 
