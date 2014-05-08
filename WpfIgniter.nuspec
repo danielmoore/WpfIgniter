@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
     <metadata>
         <id>WpfIgniter</id>
-        <version>2.0.2</version>
+        <version>2.1.0</version>
         <title>WPF Igniter</title>
         <authors>Daniel Moore &lt;polaris@northhorizon.net&gt;</authors>
         <licenseUrl>https://github.com/danielmoore/WpfIgniter/blob/master/LICENSE.md</licenseUrl>
