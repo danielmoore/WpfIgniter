@@ -5,6 +5,8 @@
     $asmInfoTemplatePath = Join-Path $buildDir CommonAssemblyInfo.cs.pstemplate
     $toolsDirPath = Join-Path $buildDir tools
 
+    $buildConfiguration = 'Release'
+
     $env:PATH += ";$toolsDirPath"
     $env:EnableNuGetPackageRestore = $true
 }
@@ -94,7 +96,7 @@ function Run-MsBuild($task) {
         msbuild "$buildDir\WpfIgniter.sln" `
             /nologo `
             /t:$task `
-            /p:Configuration=Release `
+            /p:Configuration=$buildConfiguration `
             /v:quiet `
             /p:OutDir=$outDir
     }
