@@ -14,3 +14,4 @@ using System.Windows.Markup;
 [assembly: XmlnsDefinition("http://schemas.northhorizon.net/igniter", "Igniter.Markup")]
 [assembly: XmlnsDefinition("http://schemas.northhorizon.net/igniter", "Igniter.Behaviors")]
 [assembly: XmlnsDefinition("http://schemas.northhorizon.net/igniter", "Igniter.Composition")]
+[assembly: XmlnsDefinition("http://schemas.northhorizon.net/igniter", "Igniter.Controls")]
