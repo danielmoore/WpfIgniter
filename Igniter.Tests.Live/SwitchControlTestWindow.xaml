@@ -1,0 +1,46 @@
+﻿<Window x:Class="Igniter.Tests.Live.SwitchControlTestWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:system="clr-namespace:System;assembly=mscorlib"
+        xmlns:ign="clr-namespace:Igniter.Controls;assembly=Igniter"
+        xmlns:live="clr-namespace:Igniter.Tests.Live"
+        Title="SwitchControlTestWindow" Height="300" Width="300">
+    <StackPanel>
+        <ComboBox Name="StringComboBox">
+            <system:String>first</system:String>
+            <system:String>second</system:String>
+            <system:String>third</system:String>
+            <system:String>fourth</system:String>
+        </ComboBox>
+        <ign:SwitchControl Value="{Binding SelectedItem, ElementName=StringComboBox}" Height="20">
+            <Border ign:SwitchControl.When="first" Background="Black"/>
+            <Border ign:SwitchControl.When="second" Background="Red"/>
+            <Border ign:SwitchControl.When="third" Background="Blue"/>
+            <Border Background="Green"/>
+        </ign:SwitchControl>
+        <ComboBox Name="EnumComboBox">
+            <live:TestEnum>First</live:TestEnum>
+            <live:TestEnum>Second</live:TestEnum>
+            <live:TestEnum>Third</live:TestEnum>
+            <live:TestEnum>Fourth</live:TestEnum>
+        </ComboBox>
+        <ign:SwitchControl Value="{Binding SelectedItem, ElementName=EnumComboBox}" Height="20">
+            <Border ign:SwitchControl.When="First" Background="Black"/>
+            <Border ign:SwitchControl.When="Second" Background="Red"/>
+            <Border ign:SwitchControl.When="Third" Background="Blue"/>
+            <Border Background="Green"/>
+        </ign:SwitchControl>
+        <ComboBox Name="IntComboBox">
+            <system:Int32>1</system:Int32>
+            <system:Int32>2</system:Int32>
+            <system:Int32>3</system:Int32>
+            <system:Int32>4</system:Int32>
+        </ComboBox>
+        <ign:SwitchControl Value="{Binding SelectedItem, ElementName=IntComboBox}" Height="20">
+            <Border ign:SwitchControl.When="1" Background="Black"/>
+            <Border ign:SwitchControl.When="2" Background="Red"/>
+            <Border ign:SwitchControl.When="3" Background="Blue"/>
+            <Border Background="Green"/>
+        </ign:SwitchControl>
+    </StackPanel>
+</Window>
