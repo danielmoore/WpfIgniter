@@ -9,6 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Igniter.Tests", "Igniter.Te
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{992E5933-249E-4745-9D9A-DB9C4266E992}"
 	ProjectSection(SolutionItems) = preProject
+		CommonAssemblyInfo.cs.pstemplate = CommonAssemblyInfo.cs.pstemplate
 		Igniter.vsmdi = Igniter.vsmdi
 		LICENSE.md = LICENSE.md
 		Local.testsettings = Local.testsettings

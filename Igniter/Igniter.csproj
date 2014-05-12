@@ -66,6 +66,7 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="BindableBase.cs" />
+    <Compile Include="Controls\SwitchControl.cs" />
     <Compile Include="Core\CommandBase.cs" />
     <Compile Include="Composition\CreationStrategy.cs" />
     <Compile Include="Composition\IViewFactory.cs" />
