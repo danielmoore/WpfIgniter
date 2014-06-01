@@ -18,15 +18,13 @@ namespace Igniter
         /// </summary>
         /// <param name="onExecute">The action to call when the command is executed.</param>
         /// <param name="onCanExecute">An expression describing when the command can be executed.</param>
-        public ExpressionCommand(Action onExecute, Expression<Func<bool>> onCanExecute)
+        public ExpressionCommand(Action onExecute, Expression<Func<bool>> onCanExecute) : base(onCanExecute)
         {
             if (onExecute == null) throw new ArgumentNullException("onExecute");
             if (onCanExecute == null) throw new ArgumentNullException("onCanExecute");
 
             _onExecute = onExecute;
             _onCanExecute = onCanExecute.Compile();
-
-            SubscribeToChanges(onCanExecute);
         }
 
         /// <summary>
@@ -66,14 +64,13 @@ namespace Igniter
         /// </summary>
         /// <param name="onExecute">The action to call when the command is executed.</param>
         /// <param name="onCanExecute">An expression describing when the command can be executed.</param>
-        public ExpressionCommand(Action<T> onExecute, Expression<Func<T, bool>> onCanExecute)
+        public ExpressionCommand(Action<T> onExecute, Expression<Func<T, bool>> onCanExecute) : base(onCanExecute)
         {
             if (onExecute == null) throw new ArgumentNullException("onExecute");
             if (onCanExecute == null) throw new ArgumentNullException("onCanExecute");
 
             _onExecute = onExecute;
             _onCanExecute = onCanExecute.Compile();
-            SubscribeToChanges(onCanExecute);
         }
 
         /// <summary>
