@@ -70,6 +70,7 @@
     <Compile Include="Composition\CreationStrategy.cs" />
     <Compile Include="Composition\IViewFactory.cs" />
     <Compile Include="Composition\RecreationOptions.cs" />
+    <Compile Include="Core\ExpressionWatcher.cs" />
     <Compile Include="Core\ResourceCache.cs" />
     <Compile Include="DelegateCommand.cs" />
     <Compile Include="Core\DelegateCommandBase.cs" />
