@@ -3,6 +3,53 @@ body:not(.no-literate) .content > pre ul,
 body:not(.no-literate) .content > pre ol {
   clear: left;
 }
+.title-card {
+  position: relative;
+}
+.title-card > .in {
+  position: absolute;
+  margin: auto;
+  height: 200px;
+  width: 600px;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+.title-card > .in > * {
+  display: inline-block;
+  text-align: center;
+}
+.title-card > .in .headline {
+  background: rgba(243,246,251,0.8);
+  padding: 10px 5px;
+}
+.title-card > .in h1 {
+  font-size: 32px;
+  color: #505050;
+  text-shadow: #9090aa 1px 1px 0;
+  font-weight: bold;
+}
+.title-card > .in p {
+  color: #9090aa;
+  font-weight: bold;
+  font-family: montserrat, sans-serif;
+}
+.title-card > .in h5 {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+.title-card > .in h5 > span {
+  text-transform: uppercase;
+  font-size: 26px;
+  font-family: montserrat, sans-serif;
+  color: #f3f6fb;
+  border: 4px solid #f3f6fb;
+  background: rgba(80,80,80,0.3);
+  padding: 10px;
+}
 .content ul,
 .content ol {
   padding-left: 60px !important;

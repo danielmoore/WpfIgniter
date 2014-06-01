@@ -3,7 +3,7 @@ $body-font = Helvetica Neue, Open Sans, sans-serif
 $mono-font = Menlo, monospace
 
 // Margins
-$pad = 40px      // Space between things
+$pad     = 40px  // Space between things
 $sidepad = 30px  // Padding to the left of the sidebar
 $minipad = 20px  // Space for mobile
 $vmargin = 10px  // Margin between blocks
@@ -23,10 +23,59 @@ $sidebar-width = 230px
 $content-width = 550px
 $pre-width = 380px
 
-body:not(.no-literate) .content 
+body:not(.no-literate) .content
   > pre
-      + p, ul, ol 
+      + p, ul, ol
         clear: left
+
+.title-card
+  position: relative;
+
+  > .in
+    position: absolute
+    margin: auto
+    height: 200px
+    width: 600px
+    top: 0
+    bottom: 0
+    left: 0
+    right: 0
+
+    > *
+      display: inline-block
+      text-align: center
+
+    .headline
+      background: rgba($offwhite, 0.8)
+      padding: 10px 5px
+
+
+    h1
+      font-size: 32px
+      color: $txt
+      text-shadow: $grey 1px 1px 0
+      font-weight: bold
+
+    p
+      color: $grey
+      font-weight: bold
+      font-family: montserrat, sans-serif
+
+    h5
+      position: absolute;
+      bottom: 0
+      left: 0
+      right: 0
+
+      > span
+        text-transform: uppercase
+        font-size: 26px
+        font-family: montserrat, sans-serif
+        color: $offwhite
+        border: 4px solid $offwhite
+        background: rgba($txt, 0.3)
+        padding: 10px
+
 
 .content
   ul, ol
@@ -57,7 +106,7 @@ table
     border-bottom: 1px solid $line
 
   th, td
-    padding: 2px 
+    padding: 2px
 
     &:not(:last-child)
       border-right: 1px solid $line
