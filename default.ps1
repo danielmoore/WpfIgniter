@@ -15,15 +15,20 @@ task Clean {
 }
 
 task Update-Version {
-    Write-Debug "Reading version from `"$nuspecPath`""
+    Get-Version 
 
-    [xml]$nuspec = Get-Content $nuspecPath
-
-    Write-Host "Setting version to '$($nuspec.package.metadata.version)'"
+    Write-Host "Setting version to '$($Script:version)'"
 
     Expand-Template $asmInfoTemplatePath {
-        $version = $nuspec.package.metadata.version
+        $version = $Script:version
     }
+}
+
+task Set-Tag {
+	$version = Get-Version
+
+	Exec { git tag v/$version }
+	Exec { git push origin tag v/$version }
 }
 
 task Compile -depends Clean {
@@ -34,7 +39,7 @@ task Package -depends Clean, Update-Version, Compile {
     Exec { nuget pack $nuspecPath -OutputDirectory $outDir }
 }
 
-task Publish -depends Package {
+task Publish -depends Package, Set-Tag {
     Exec { nuget push (Join-Path $outDir '*.nupkg') -NonInteractive }
 }
 
@@ -61,4 +66,16 @@ function Expand-Template([string]$TemplateFilePath, [ScriptBlock]$SetProperties)
         Invoke-Expression "@`"`r`n$([IO.File]::ReadAllText($TemplateFilePath))`r`n`"@" | `
             Out-File -Encoding utf8 -FilePath $targetFilePath -Force
     }
+}
+
+function Get-Version {
+	if (-not (Test-Path variable:script:version)) {
+	    Write-Debug "Reading version from `"$nuspecPath`""
+
+	   [xml]$nuspec = Get-Content $nuspecPath
+	
+		$Script:version = $nuspec.package.metadata.version
+	}
+
+	return $Script:version;
 }
