@@ -32,7 +32,7 @@
     </metadata>
     <files>
         <file src="build\Igniter.dll" target="lib\net40-client\Igniter.dll" />
-        <file src="build\Igniter.dll" target="lib\net40-client\Igniter.dll.config" />
+        <file src="build\Igniter.dll.config" target="lib\net40-client\Igniter.dll.config" />
         <file src="build\Igniter.pdb" target="lib\net40-client\Igniter.pdb" />
         <file src="build\Igniter.xml" target="lib\net40-client\Igniter.xml" />
     </files>
