@@ -53,6 +53,13 @@ namespace Igniter
             return Observable.Create<object>(o => SubscribeToDependencyPropertyChanges(source, property, (s, e) => o.OnNext(e.NewValue)));
         }
 
+        public static bool IsPropertySet(this DependencyObject source, DependencyProperty property)
+        {
+            var valSource = DependencyPropertyHelper.GetValueSource(source, property);
+
+            return valSource.BaseValueSource != BaseValueSource.Unknown && valSource.BaseValueSource != BaseValueSource.Default;
+        }
+
         #region [Attached] private static Dictionary<DependencyProperty, EventProxy> EventProxies { get; set; }
 
         private static Dictionary<DependencyProperty, EventProxy> GetEventProxies(DependencyObject obj)

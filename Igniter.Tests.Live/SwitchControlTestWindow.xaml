@@ -2,8 +2,8 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:system="clr-namespace:System;assembly=mscorlib"
-        xmlns:ign="clr-namespace:Igniter.Controls;assembly=Igniter"
         xmlns:live="clr-namespace:Igniter.Tests.Live"
+        xmlns:ign="http://schemas.northhorizon.net/igniter"
         Title="SwitchControlTestWindow" Height="300" Width="300">
     <StackPanel>
         <ComboBox Name="StringComboBox">
@@ -12,7 +12,7 @@
             <system:String>third</system:String>
             <system:String>fourth</system:String>
         </ComboBox>
-        <ign:SwitchControl Value="{Binding SelectedItem, ElementName=StringComboBox}" Height="20">
+        <ign:SwitchControl On="{Binding SelectedItem, ElementName=StringComboBox}" Height="20">
             <Border ign:SwitchControl.When="first" Background="Black"/>
             <Border ign:SwitchControl.When="second" Background="Red"/>
             <Border ign:SwitchControl.When="third" Background="Blue"/>
@@ -24,7 +24,7 @@
             <live:TestEnum>Third</live:TestEnum>
             <live:TestEnum>Fourth</live:TestEnum>
         </ComboBox>
-        <ign:SwitchControl Value="{Binding SelectedItem, ElementName=EnumComboBox}" Height="20">
+        <ign:SwitchControl On="{Binding SelectedItem, ElementName=EnumComboBox}" Height="20">
             <Border ign:SwitchControl.When="First" Background="Black"/>
             <Border ign:SwitchControl.When="Second" Background="Red"/>
             <Border ign:SwitchControl.When="Third" Background="Blue"/>
@@ -36,7 +36,7 @@
             <system:Int32>3</system:Int32>
             <system:Int32>4</system:Int32>
         </ComboBox>
-        <ign:SwitchControl Value="{Binding SelectedItem, ElementName=IntComboBox}" Height="20">
+        <ign:SwitchControl On="{Binding SelectedItem, ElementName=IntComboBox}" Height="20">
             <Border ign:SwitchControl.When="1" Background="Black"/>
             <Border ign:SwitchControl.When="2" Background="Red"/>
             <Border ign:SwitchControl.When="3" Background="Blue"/>
