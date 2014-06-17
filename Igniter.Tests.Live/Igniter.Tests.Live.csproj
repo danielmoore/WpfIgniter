@@ -93,6 +93,9 @@
     <Compile Include="SharedResourceBehaviorTestWindow.xaml.cs">
       <DependentUpon>SharedResourceBehaviorTestWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SwitchBehaviorTestWindow.xaml.cs">
+      <DependentUpon>SwitchBehaviorTestWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SwitchControlTestWindow.xaml.cs">
       <DependentUpon>SwitchControlTestWindow.xaml</DependentUpon>
     </Compile>
@@ -156,6 +159,10 @@
       <ContainsDesignTimeResources>true</ContainsDesignTimeResources>
     </Page>
     <Page Include="SharedResourceBehaviorTestWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SwitchBehaviorTestWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
