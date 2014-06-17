@@ -65,6 +65,7 @@
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Behaviors\SwitchBehavior.cs" />
     <Compile Include="BindableBase.cs" />
     <Compile Include="Controls\SwitchControl.cs" />
     <Compile Include="Core\CommandBase.cs" />
@@ -73,6 +74,7 @@
     <Compile Include="Composition\RecreationOptions.cs" />
     <Compile Include="Core\ExpressionWatcher.cs" />
     <Compile Include="Core\ResourceCache.cs" />
+    <Compile Include="Core\SwitchCaseEvaluator.cs" />
     <Compile Include="DelegateCommand.cs" />
     <Compile Include="Core\DelegateCommandBase.cs" />
     <Compile Include="DependencyObjectExtensions.cs" />

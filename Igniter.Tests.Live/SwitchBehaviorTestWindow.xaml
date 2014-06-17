@@ -1,0 +1,57 @@
+﻿<Window x:Class="Igniter.Tests.Live.SwitchBehaviorTestWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:system="clr-namespace:System;assembly=mscorlib"
+        xmlns:live="clr-namespace:Igniter.Tests.Live"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:ign="http://schemas.northhorizon.net/igniter"
+        Title="SwitchBehaviorTestWindow" Height="300" Width="300">
+    <StackPanel>
+        <ComboBox Name="StringComboBox">
+            <system:String>first</system:String>
+            <system:String>second</system:String>
+            <system:String>third</system:String>
+            <system:String>fourth</system:String>
+        </ComboBox>
+        <Border Height="20" BorderThickness="1">
+            <i:Interaction.Behaviors>
+                <ign:SwitchBehavior On="{Binding SelectedItem, ElementName=StringComboBox}" ign:SwitchPropertyCase.Property="Border.Background">
+                    <ign:SwitchPropertyCase When="first" Value="{x:Static Brushes.Black}"/>
+                    <ign:SwitchPropertyCase When="second" Value="Red"/>
+                    <ign:SwitchPropertyCase When="third" Value="Blue"/>
+                    <ign:SwitchPropertyCase Property="Border.BorderBrush" Value="Green"/>
+                </ign:SwitchBehavior>
+            </i:Interaction.Behaviors>
+        </Border>
+
+        <ComboBox Name="EnumComboBox">
+            <live:TestEnum>First</live:TestEnum>
+            <live:TestEnum>Second</live:TestEnum>
+            <live:TestEnum>Third</live:TestEnum>
+            <live:TestEnum>Fourth</live:TestEnum>
+        </ComboBox>
+        <Border Height="20" BorderThickness="1">
+            <i:Interaction.Behaviors>
+                <ign:SwitchBehavior On="{Binding SelectedItem, ElementName=EnumComboBox}">
+                    <ign:SwitchMultiPropertyCase When="first">
+                        <ign:PropertySetter Property="Border.Background" Value="{x:Static Brushes.Black}"/>
+                        <ign:PropertySetter Property="Border.BorderBrush" Value="Green"/>
+                    </ign:SwitchMultiPropertyCase>
+                    <ign:SwitchMultiPropertyCase When="second">
+                        <ign:PropertySetter Property="Border.Background" Value="Blue"/>
+                        <ign:PropertySetter Property="Border.BorderBrush" Value="Red"/>
+                    </ign:SwitchMultiPropertyCase>
+                    <ign:SwitchMultiPropertyCase When="third">
+                        <ign:PropertySetter Property="Border.Background" Value="Red"/>
+                        <ign:PropertySetter Property="Border.BorderBrush" Value="Yellow"/>
+                    </ign:SwitchMultiPropertyCase>
+                    <ign:SwitchMultiPropertyCase>
+                        <ign:PropertySetter Property="Border.Background" Value="Green"/>
+                        <ign:PropertySetter Property="Border.BorderBrush" Value="Blue"/>
+                    </ign:SwitchMultiPropertyCase>
+                </ign:SwitchBehavior>
+            </i:Interaction.Behaviors>
+        </Border>
+
+    </StackPanel>
+</Window>
