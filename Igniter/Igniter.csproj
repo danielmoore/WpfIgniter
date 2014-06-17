@@ -90,6 +90,7 @@
     <Compile Include="Core\WeakEvent.cs" />
     <Compile Include="Composition\ViewFactory.cs" />
     <Compile Include="Composition\ViewElement.cs" />
+    <Compile Include="UntypedTuple.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">
