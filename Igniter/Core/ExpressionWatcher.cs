@@ -205,7 +205,7 @@ namespace Igniter.Core
 
             private void OnNotifierPropertyChanged(object sender, PropertyChangedEventArgs e)
             {
-                if (e.PropertyName == _memberName)
+                if (string.IsNullOrEmpty(e.PropertyName) || string.Equals(e.PropertyName, _memberName, StringComparison.Ordinal))
                     OnChanged();
             }
         }
@@ -222,8 +222,7 @@ namespace Igniter.Core
 
             private void OnNotifierCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
             {
-                if (e.Action != NotifyCollectionChangedAction.Move)
-                    OnChanged();
+                OnChanged();
             }
         }
 
@@ -243,6 +242,7 @@ namespace Igniter.Core
                 {
                     case ListChangedType.ItemAdded:
                     case ListChangedType.ItemDeleted:
+                    case ListChangedType.ItemMoved:
                     case ListChangedType.Reset:
                         OnChanged();
                         break;
