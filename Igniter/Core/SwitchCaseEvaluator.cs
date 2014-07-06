@@ -4,10 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 using System.Windows;
-using Igniter.Controls;
 
 namespace Igniter.Core
 {
@@ -51,6 +48,9 @@ namespace Igniter.Core
             
             SetEvaluator(_host, this);
 
+            SetTargetType(GetOn(_host));
+            UpdateEffectiveEqualityComparer();
+
             for (int i = 0; i < _cases.Length; i++)
             {
                 SetEvaluator(_cases[i], this);
@@ -75,21 +75,7 @@ namespace Igniter.Core
             var evaluator = GetEvaluator(d);
 
             if (evaluator != null)
-                evaluator.OnOnChanged(e);
-        }
-
-        private void OnOnChanged(DependencyPropertyChangedEventArgs args)
-        {
-            var previousType = _targetType;
-            _targetType = args.NewValue == null ? null : args.NewValue.GetType();
-            _typeConverter = _targetType == null ? null : TypeDescriptor.GetConverter(_targetType);
-
-            var typeChanged = previousType != _targetType;
-
-            if (typeChanged)
-                _effectivEqualityComparer = EqualityComparer ?? GetDefaultEqualityComparer(_targetType);
-
-            ChooseCase(clearCache: typeChanged);
+                evaluator.SetTargetType(e.NewValue);
         }
 
         /// <summary>
@@ -113,6 +99,29 @@ namespace Igniter.Core
         }
 
         #endregion
+
+        private void SetTargetType(object switchOn)
+        {
+            var newType = switchOn != null ? switchOn.GetType() : null;
+
+            var previousType = _targetType;
+            _targetType = newType;
+
+            var typeChanged = previousType != _targetType;
+
+            if (typeChanged)
+            {
+                _typeConverter = newType == null ? null : TypeDescriptor.GetConverter(_targetType);
+                UpdateEffectiveEqualityComparer();
+            }
+
+            ChooseCase(clearCache: typeChanged);
+        }
+
+        private void UpdateEffectiveEqualityComparer()
+        {
+            _effectivEqualityComparer = EqualityComparer ?? GetDefaultEqualityComparer(_targetType);
+        }
 
         #region object When { get; set; }
 
@@ -215,7 +224,19 @@ namespace Igniter.Core
         /// Identifies the <see cref="EqualityComparer"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty EqualityComparerProperty =
-            DependencyProperty.RegisterAttached("EqualityComparer", typeof(IEqualityComparer), typeof(SwitchCaseEvaluator));
+            DependencyProperty.RegisterAttached("EqualityComparer", typeof(IEqualityComparer), typeof(SwitchCaseEvaluator),
+            new PropertyMetadata(OnEqualityComparerPropertyChanged));
+
+        private static void OnEqualityComparerPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        {
+            var evaluator = GetEvaluator(sender);
+            
+            if (evaluator != null)
+            {
+                evaluator.UpdateEffectiveEqualityComparer();
+                evaluator.ChooseCase();
+            }
+        }
 
         /// <summary>
         /// Gets the EqualityComparer.
