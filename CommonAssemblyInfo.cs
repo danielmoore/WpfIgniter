@@ -7,5 +7,5 @@
 [assembly: AssemblyCulture("")] // main (not satellite) assembly, no culture. 
 
 [assembly: AssemblyVersion("2.2.0")]
-[assembly: AssemblyInformationalVersion("2.2.0-beta-3")]
+[assembly: AssemblyInformationalVersion("2.2.0-beta-5")]
 

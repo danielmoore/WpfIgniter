@@ -22,7 +22,7 @@ namespace Igniter.Behaviors
 
             _caseEvaluator.CaseSelected += OnCaseSelected;
         }
-      
+
         public List<SwitchBehaviorCase> Cases { get; private set; }
 
         #region object On { get; set; }
@@ -31,7 +31,7 @@ namespace Igniter.Behaviors
         /// Identifies the <see cref="On"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty OnProperty =
-           SwitchCaseEvaluator.OnProperty.AddOwner(typeof(SwitchBehavior));
+            SwitchCaseEvaluator.OnProperty.AddOwner(typeof(SwitchBehavior));
 
         /// <summary>
         /// Gets or sets the On.
@@ -65,7 +65,7 @@ namespace Igniter.Behaviors
 
         private void OnCaseSelected(object sender, SwitchCaseEventArgs e)
         {
-            if (e.Case != null) 
+            if (e.Case != null)
                 ((SwitchBehaviorCase)e.Case).ApplyState(AssociatedObject);
         }
 
@@ -128,47 +128,8 @@ namespace Igniter.Behaviors
         public abstract void ApplyState(DependencyObject obj);
     }
 
-    public abstract class SwitchPropertyCaseBase : SwitchBehaviorCase
-    {
-        protected static void SetBindingOrValue(DependencyObject target, DependencyProperty property, object value)
-        {
-            var binding = value as BindingBase;
-
-            if (binding != null)
-            {
-                BindingOperations.SetBinding(target, property, binding);
-                return;
-            }
-
-
-            if (property.PropertyType.IsInstanceOfType(value))
-            {
-                target.SetValue(property, value);
-                return;
-            }
-
-            if (value != null)
-            {
-                var converter = TypeDescriptor.GetConverter(property.PropertyType);
-
-                if (converter.CanConvertFrom(value.GetType()))
-                {
-                    var converted = converter.ConvertFrom(value);
-
-                    target.SetValue(property, converted);
-
-                    return;
-                }
-            }
-
-            // if all else fails...
-            target.ClearValue(property);
-        }
-
-
-    }
-
-    public class SwitchPropertyCase : SwitchPropertyCaseBase
+    [XamlSetMarkupExtension("ReceiveMarkupExtension")]
+    public class SwitchPropertyCase : SwitchBehaviorCase
     {
         #region DependencyProperty Property { get; set; }
 
@@ -205,12 +166,24 @@ namespace Igniter.Behaviors
         public override void ApplyState(DependencyObject obj)
         {
             var propertySrc = this.IsPropertySet(PropertyProperty) ? (DependencyObject)this : OwningSwitchBehavior;
-            SetBindingOrValue(obj, GetProperty(propertySrc), Value);
+
+            SetPropertyHelper.SetBindingOrValue(obj, GetProperty(propertySrc), Value);
+        }
+
+        public static void ReceiveMarkupExtension(object targetObject, XamlSetMarkupExtensionEventArgs eventArgs)
+        {
+            if (eventArgs.Member.Name != "Value") return;
+
+            object value;
+            eventArgs.Handled = SetPropertyHelper.TryReceiveMarkupExtension(eventArgs.MarkupExtension, eventArgs.ServiceProvider, out value);
+
+            if (eventArgs.Handled)
+                ((SwitchPropertyCase)targetObject).Value = value;
         }
     }
 
-    [ContentProperty("Setters"), Ambient]
-    public class SwitchMultiPropertyCase : SwitchPropertyCaseBase, IAddChild
+    [ContentProperty("Setters")]
+    public class SwitchMultiPropertyCase : SwitchBehaviorCase, IAddChild
     {
         public SwitchMultiPropertyCase()
         {
@@ -222,7 +195,7 @@ namespace Igniter.Behaviors
         public override void ApplyState(DependencyObject obj)
         {
             foreach (var setter in Setters)
-                SetBindingOrValue(obj, setter.Property, setter.Value);
+                SetPropertyHelper.SetBindingOrValue(obj, setter.Property, setter.Value);
         }
 
         public void AddChild(object value)
@@ -245,10 +218,103 @@ namespace Igniter.Behaviors
         }
     }
 
+    [XamlSetMarkupExtension("ReceiveMarkupExtension")]
     public class PropertySetter
     {
         public DependencyProperty Property { get; set; }
 
         public object Value { get; set; }
+
+        public static void ReceiveMarkupExtension(object targetObject, XamlSetMarkupExtensionEventArgs eventArgs)
+        {
+            if (eventArgs.Member.Name != "Value") return;
+
+            object value;
+            eventArgs.Handled = SetPropertyHelper.TryReceiveMarkupExtension(eventArgs.MarkupExtension, eventArgs.ServiceProvider, out value);
+
+            if (eventArgs.Handled)
+                ((PropertySetter)targetObject).Value = value;
+        }
+    }
+
+    internal static class SetPropertyHelper
+    {
+        public static bool TryReceiveMarkupExtension(MarkupExtension markupExtension, IServiceProvider serviceProvider, out object value)
+        {
+            var staticResource = markupExtension as StaticResourceExtension;
+            if (staticResource != null)
+            {
+                value = staticResource.ProvideValue(serviceProvider);
+                return true;
+            }
+
+            if (markupExtension is DynamicResourceExtension || markupExtension is BindingBase)
+            {
+                value = markupExtension;
+                return true;
+            }
+
+            value = null;
+            return false;
+        }
+
+        public static void SetBindingOrValue(DependencyObject target, DependencyProperty property, object value)
+        {
+            var binding = value as BindingBase;
+
+            if (binding != null)
+            {
+                BindingOperations.SetBinding(target, property, binding);
+                return;
+            }
+
+            var markupExtension = value as MarkupExtension;
+            if (markupExtension != null)
+            {
+                var computed = markupExtension.ProvideValue(new ServiceProvider { TargetObject = target, TargetProperty = property });
+
+                target.SetValue(property, computed);
+                return;
+            }
+
+
+            if (value is Expression || property.PropertyType.IsInstanceOfType(value))
+            {
+                target.SetValue(property, value);
+                return;
+            }
+
+            if (value != null)
+            {
+                var converter = TypeDescriptor.GetConverter(property.PropertyType);
+
+                if (converter.CanConvertFrom(value.GetType()))
+                {
+                    var converted = converter.ConvertFrom(value);
+
+                    target.SetValue(property, converted);
+
+                    return;
+                }
+            }
+
+            // if all else fails...
+            target.ClearValue(property);
+        }
+
+        private class ServiceProvider : IServiceProvider, IProvideValueTarget
+        {
+            public object GetService(Type serviceType)
+            {
+                if (serviceType.IsInstanceOfType(this))
+                    return this;
+
+                throw new NotSupportedException();
+            }
+
+            public object TargetObject { get; set; }
+            public object TargetProperty { get; set; }
+        }
+
     }
 }
