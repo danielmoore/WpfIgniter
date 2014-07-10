@@ -65,7 +65,12 @@
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Behaviors\PropertySetter.cs" />
+    <Compile Include="Behaviors\SetPropertyHelper.cs" />
     <Compile Include="Behaviors\SwitchBehavior.cs" />
+    <Compile Include="Behaviors\SwitchBehaviorCase.cs" />
+    <Compile Include="Behaviors\SwitchMultiPropertyCase.cs" />
+    <Compile Include="Behaviors\SwitchPropertyCase.cs" />
     <Compile Include="BindableBase.cs" />
     <Compile Include="Controls\SwitchControl.cs" />
     <Compile Include="Core\CommandBase.cs" />
