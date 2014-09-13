@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 
 namespace Igniter.Core
 {
@@ -10,7 +11,36 @@ namespace Igniter.Core
     /// <typeparam name="TDelegate">The type of the delegate.</typeparam>
     public sealed class WeakEvent<TDelegate> where TDelegate : class
     {
-        private readonly List<WeakReference> _delegates = new List<WeakReference>();
+        private readonly ConditionalWeakTable<object, List<TDelegate>> _delegates = new ConditionalWeakTable<object, List<TDelegate>>();
+        private readonly List<WeakReference> _invocationLists = new List<WeakReference>();
+        private readonly List<TDelegate> _staticInvocationList = new List<TDelegate>();
+
+        private List<TDelegate> GetInvocationList(object target)
+        {
+            if (target == null) return _staticInvocationList;
+
+            List<TDelegate> invocationList;
+            if (!_delegates.TryGetValue(target, out invocationList))
+            {
+                _delegates.Add(target, invocationList = new List<TDelegate>(5));
+                _invocationLists.Add(new WeakReference(invocationList));
+            }
+
+            return invocationList;
+        }
+
+        private static object GetTarget(TDelegate handler)
+        {
+            var @delegate = handler as Delegate;
+
+            if (@delegate == null)
+                throw new ArgumentException("Handler is not a delegate", "handler");
+
+            if (@delegate.Target != null && Attribute.IsDefined(@delegate.Method.DeclaringType, typeof(CompilerGeneratedAttribute)))
+                throw new ArgumentException("Handler is compiler generated and cannot be added to a weak event", "handler");
+
+            return @delegate.Target;
+        }
 
         /// <summary>
         /// Adds the specified event handler to the invocation list.
@@ -21,8 +51,9 @@ namespace Igniter.Core
         {
             if (handler == null) throw new ArgumentNullException("handler");
 
-            lock (_delegates)
-                _delegates.Add(new WeakReference(handler));
+            var target = GetTarget(handler);
+
+            GetInvocationList(target).Add(handler);
         }
 
         /// <summary>
@@ -34,18 +65,9 @@ namespace Igniter.Core
         {
             if (handler == null) throw new ArgumentNullException("handler");
 
-            lock (_delegates)
-                for (int i = _delegates.Count - 1; i >= 0; i--)
-                {
-                    var current = _delegates[i].Target;
-                    if (current == null)
-                        _delegates.RemoveAt(i);
-                    else if (current.Equals(handler))
-                    {
-                        _delegates.RemoveAt(i);
-                        break;
-                    }
-                }
+            var target = GetTarget(handler);
+
+            GetInvocationList(target).Remove(handler);
         }
 
         /// <summary>
@@ -57,15 +79,30 @@ namespace Igniter.Core
         {
             if (invoker == null) throw new ArgumentNullException("invoker");
 
-            lock (_delegates)
-                for (int i = _delegates.Count - 1; i >= 0; i--)
+            var removed = 0;
+
+            var count = _invocationLists.Count;
+            for (int i = 0; i < count; i++)
+            {
+                var invocationList = (List<TDelegate>)_invocationLists[i].Target;
+
+                if (invocationList == null)
+                    removed++;
+                else
                 {
-                    var current = _delegates[i].Target;
-                    if (current == null)
-                        _delegates.RemoveAt(i);
-                    else
-                        invoker((TDelegate)current);
+                    for (var j = 0; j < invocationList.Count; j++)
+                        invoker(invocationList[j]);
+
+                    _invocationLists[i - removed] = _invocationLists[i];
                 }
+            }
+
+            if (removed > 0)
+                _invocationLists.RemoveRange(count - removed, removed);
+            
+            int staticCount = _staticInvocationList.Count;
+            for (int i = 0; i < staticCount; i++)
+                invoker(_staticInvocationList[i]);
         }
     }
 }
