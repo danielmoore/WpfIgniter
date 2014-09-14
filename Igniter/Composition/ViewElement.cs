@@ -19,7 +19,9 @@ namespace Igniter.Composition
 
         static ViewElement()
         {
-            var template = new ControlTemplate(typeof(ViewElement))
+            var self = typeof(ViewElement);
+
+            var template = new ControlTemplate(self)
             {
                 VisualTree = new FrameworkElementFactory(typeof(ContentPresenter))
             };
@@ -30,7 +32,8 @@ namespace Igniter.Composition
                 RelativeSource = RelativeSource.TemplatedParent
             });
 
-            TemplateProperty.OverrideMetadata(typeof(ViewElement), new FrameworkPropertyMetadata(template));
+            TemplateProperty.OverrideMetadata(self, new FrameworkPropertyMetadata(template));
+            FocusableProperty.OverrideMetadata(self, new FrameworkPropertyMetadata(false));
         }
 
 
