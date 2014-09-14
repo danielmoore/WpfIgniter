@@ -11,7 +11,7 @@ namespace Igniter.Composition
     /// A <see cref="ViewFactory"/> wrapper container to inject view/view model 
     /// pairs into the visual tree.
     /// </summary>
-    public sealed class ViewElement : Control
+    public sealed class ViewElement : FrameworkElement
     {
         private bool _isCreateScheduled = true;
         private RecreationOptions _scheduledRecreationOptions;
@@ -21,18 +21,6 @@ namespace Igniter.Composition
         {
             var self = typeof(ViewElement);
 
-            var template = new ControlTemplate(self)
-            {
-                VisualTree = new FrameworkElementFactory(typeof(ContentPresenter))
-            };
-
-            template.VisualTree.SetBinding(ContentPresenter.ContentProperty, new Binding
-            {
-                Path = new PropertyPath("(0)", ResolvedViewProperty),
-                RelativeSource = RelativeSource.TemplatedParent
-            });
-
-            TemplateProperty.OverrideMetadata(self, new FrameworkPropertyMetadata(template));
             FocusableProperty.OverrideMetadata(self, new FrameworkPropertyMetadata(false));
         }
 
@@ -139,7 +127,8 @@ namespace Igniter.Composition
         #region FrameworkElement ResolvedView { get; private set; }
 
         private static readonly DependencyPropertyKey ResolvedViewPropertyKey =
-            DependencyProperty.RegisterReadOnly("ResolvedView", typeof(FrameworkElement), typeof(ViewElement), new PropertyMetadata(null));
+            DependencyProperty.RegisterReadOnly("ResolvedView", typeof(FrameworkElement), typeof(ViewElement),
+            new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsMeasure, OnResolvedViewPropertyChanged));
 
         /// <summary>
         /// Identifies the <see cref="ResolvedView"/> dependency property.
@@ -153,6 +142,27 @@ namespace Igniter.Composition
         {
             get { return (FrameworkElement)GetValue(ResolvedViewProperty); }
             private set { SetValue(ResolvedViewPropertyKey, value); }
+        }
+
+        private static void OnResolvedViewPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        {
+            ((ViewElement)sender).OnResolvedViewPropertyChanged((FrameworkElement)e.OldValue, (FrameworkElement)e.NewValue);
+        }
+
+
+        private void OnResolvedViewPropertyChanged(FrameworkElement oldValue, FrameworkElement newValue)
+        {
+            if (oldValue != null)
+            {
+                RemoveLogicalChild(oldValue);
+                RemoveVisualChild(oldValue);
+            }
+
+            if (newValue != null)
+            {
+                AddLogicalChild(newValue);
+                AddVisualChild(newValue);
+            }
         }
 
         #endregion
@@ -328,6 +338,43 @@ namespace Igniter.Composition
         }
 
         #endregion
+
+        protected override Size MeasureOverride(Size availableSize)
+        {
+            var resolvedView = ResolvedView;
+
+            if (resolvedView == null)
+                return base.MeasureOverride(availableSize);
+
+            resolvedView.Measure(availableSize);
+            return resolvedView.DesiredSize;
+        }
+
+        protected override Size ArrangeOverride(Size finalSize)
+        {
+            var resolvedView = ResolvedView;
+
+            if (resolvedView == null)
+                return base.ArrangeOverride(finalSize);
+
+            resolvedView.Arrange(new Rect(finalSize));
+            return resolvedView.RenderSize;
+        }
+
+        protected override int VisualChildrenCount
+        {
+            get { return ResolvedView != null ? 1 : 0; }
+        }
+
+        protected override Visual GetVisualChild(int index)
+        {
+            var resolvedView = ResolvedView;
+
+            if (resolvedView == null || index > 0)
+                throw new ArgumentOutOfRangeException();
+
+            return resolvedView;
+        }
 
         private abstract class ViewComponentPropertyMetadata : PropertyMetadata
         {
