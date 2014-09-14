@@ -82,7 +82,7 @@ namespace Igniter.Behaviors
         }
 
         public void AddChild(object value)
-        {
+        { 
             if (value == null)
                 throw new ArgumentNullException("value");
 

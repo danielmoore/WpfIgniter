@@ -149,7 +149,6 @@ namespace Igniter.Composition
             ((ViewElement)sender).OnResolvedViewPropertyChanged((FrameworkElement)e.OldValue, (FrameworkElement)e.NewValue);
         }
 
-
         private void OnResolvedViewPropertyChanged(FrameworkElement oldValue, FrameworkElement newValue)
         {
             if (oldValue != null)
