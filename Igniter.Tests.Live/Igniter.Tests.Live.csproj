@@ -96,8 +96,8 @@
     <Compile Include="SwitchBehaviorTestWindow.xaml.cs">
       <DependentUpon>SwitchBehaviorTestWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SwitchControlTestWindow.xaml.cs">
-      <DependentUpon>SwitchControlTestWindow.xaml</DependentUpon>
+    <Compile Include="SwitchElementTestWindow.xaml.cs">
+      <DependentUpon>SwitchElementTestWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewElementTests\TestView1.xaml.cs">
       <DependentUpon>TestView1.xaml</DependentUpon>
@@ -166,7 +166,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SwitchControlTestWindow.xaml">
+    <Page Include="SwitchElementTestWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

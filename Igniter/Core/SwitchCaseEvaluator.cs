@@ -46,14 +46,14 @@ namespace Igniter.Core
 
             _convertedValues = new object[_cases.Length];
             
-            SetEvaluator(_host, this);
+            SetEvaluatorOnHost(_host, this);
 
             SetTargetType(GetOn(_host));
             UpdateEffectiveEqualityComparer();
 
             for (int i = 0; i < _cases.Length; i++)
             {
-                SetEvaluator(_cases[i], this);
+                SetEvaluatorOnCase(_cases[i], this);
                 SetCaseIndex(_cases[i], i);
             }
 
@@ -72,7 +72,7 @@ namespace Igniter.Core
 
         private static void OnOnChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var evaluator = GetEvaluator(d);
+            var evaluator = GetEvaluatorOnHost(d);
 
             if (evaluator != null)
                 evaluator.SetTargetType(e.NewValue);
@@ -133,7 +133,7 @@ namespace Igniter.Core
 
         private static void OnWhenPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
         {
-            var evaluator = GetEvaluator(sender);
+            var evaluator = GetEvaluatorOnCase(sender);
 
             if (evaluator != null)
                 evaluator.OnCaseValueChanged(GetCaseIndex(sender));
@@ -184,31 +184,60 @@ namespace Igniter.Core
 
         #endregion
 
-        #region SwitchCaseEvaluator Evaluator { get; private set; }
+        #region SwitchCaseEvaluator EvaluatorOnHost { get; private set; }
 
-        private static readonly DependencyPropertyKey EvaluatorPropertyKey =
-            DependencyProperty.RegisterAttachedReadOnly("Evaluator", typeof(SwitchCaseEvaluator), typeof(SwitchCaseEvaluator), new PropertyMetadata(null));
-
-        /// <summary>
-        /// Identifies the <see cref="Evaluator"/> dependency property.
-        /// </summary>
-        private static readonly DependencyProperty EvaluatorProperty = EvaluatorPropertyKey.DependencyProperty;
+        private static readonly DependencyPropertyKey EvaluatorOnHostPropertyKey =
+            DependencyProperty.RegisterAttachedReadOnly("EvaluatorOnHost", typeof(SwitchCaseEvaluator), typeof(SwitchCaseEvaluator), new PropertyMetadata(null));
 
         /// <summary>
-        /// Gets the Evaluator.
+        /// Identifies the <see cref="EvaluatorOnHost"/> dependency property.
         /// </summary>
-        private static SwitchCaseEvaluator GetEvaluator(DependencyObject obj)
+        public static readonly DependencyProperty EvaluatorOnHostProperty = EvaluatorOnHostPropertyKey.DependencyProperty;
+
+        /// <summary>
+        /// Gets the EvaluatorOnHost.
+        /// </summary>
+        public static SwitchCaseEvaluator GetEvaluatorOnHost(DependencyObject obj)
         {
             if (obj == null) throw new ArgumentNullException("obj");
 
-            return (SwitchCaseEvaluator)obj.GetValue(EvaluatorProperty);
+            return (SwitchCaseEvaluator)obj.GetValue(EvaluatorOnHostProperty);
         }
 
-        private static void SetEvaluator(DependencyObject obj, SwitchCaseEvaluator value)
+        private static void SetEvaluatorOnHost(DependencyObject obj, SwitchCaseEvaluator value)
         {
             if (obj == null) throw new ArgumentNullException("obj");
 
-            obj.SetValue(EvaluatorPropertyKey, value);
+            obj.SetValue(EvaluatorOnHostPropertyKey, value);
+        }
+
+        #endregion
+
+        #region SwitchCaseEvaluator EvaluatorOnCase { get; private set; }
+
+        private static readonly DependencyPropertyKey EvaluatorOnCasePropertyKey =
+            DependencyProperty.RegisterAttachedReadOnly("EvaluatorOnCase", typeof(SwitchCaseEvaluator), typeof(SwitchCaseEvaluator), new PropertyMetadata(null));
+
+        /// <summary>
+        /// Identifies the <see cref="EvaluatorOnCase"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty EvaluatorOnCaseProperty = EvaluatorOnCasePropertyKey.DependencyProperty;
+
+        /// <summary>
+        /// Gets the EvaluatorOnCase.
+        /// </summary>
+        public static SwitchCaseEvaluator GetEvaluatorOnCase(DependencyObject obj)
+        {
+            if (obj == null) throw new ArgumentNullException("obj");
+
+            return (SwitchCaseEvaluator)obj.GetValue(EvaluatorOnCaseProperty);
+        }
+
+        private static void SetEvaluatorOnCase(DependencyObject obj, SwitchCaseEvaluator value)
+        {
+            if (obj == null) throw new ArgumentNullException("obj");
+
+            obj.SetValue(EvaluatorOnCasePropertyKey, value);
         }
 
         #endregion
@@ -229,7 +258,7 @@ namespace Igniter.Core
 
         private static void OnEqualityComparerPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
-            var evaluator = GetEvaluator(sender);
+            var evaluator = GetEvaluatorOnHost(sender);
             
             if (evaluator != null)
             {

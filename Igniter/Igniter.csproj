@@ -72,7 +72,7 @@
     <Compile Include="Behaviors\SwitchMultiPropertyCase.cs" />
     <Compile Include="Behaviors\SwitchPropertyCase.cs" />
     <Compile Include="BindableBase.cs" />
-    <Compile Include="Controls\SwitchControl.cs" />
+    <Compile Include="Controls\SwitchElement.cs" />
     <Compile Include="Core\CommandBase.cs" />
     <Compile Include="Composition\CreationStrategy.cs" />
     <Compile Include="Composition\IViewFactory.cs" />

@@ -15,12 +15,12 @@ using Igniter.Controls;
 namespace Igniter.Tests.Live
 {
     /// <summary>
-    /// Interaction logic for SwitchControlTestWindow.xaml
+    /// Interaction logic for SwitchElementTestWindow.xaml
     /// </summary>
-    [LiveTest("SwitchControl")]
-    public partial class SwitchControlTestWindow : Window
+    [LiveTest("SwitchElement")]
+    public partial class SwitchElementTestWindow : Window
     {
-        public SwitchControlTestWindow()
+        public SwitchElementTestWindow()
         {
             InitializeComponent();
         }
