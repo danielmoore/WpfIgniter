@@ -29,7 +29,7 @@ task Update-Version {
 task Set-Tag {
 	$version = Get-Version
 
-	Exec { git commit allow-empty -m "v$version" }
+	Exec { git commit --allow-empty -m "v$version" }
 	Exec { git push }
 	Exec { git tag v/$version }
 	Exec { git push origin tag v/$version }
