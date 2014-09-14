@@ -9,7 +9,7 @@ namespace Igniter.Core
     /// <summary>
     /// Provides infrastructure for analyzing CanExecute expressions.
     /// </summary>
-    public abstract class ExpressionCommandBase : CommandBase, IDisposable
+    public abstract class ExpressionCommandBase : CommandBase, IDisposableCommand
     {
         private readonly ExpressionWatcher _watcher;
 

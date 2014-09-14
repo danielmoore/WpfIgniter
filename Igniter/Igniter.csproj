@@ -82,6 +82,7 @@
     <Compile Include="Behaviors\DirectoryResourcesBehavior.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Behaviors\ResourceBehvior.cs" />
+    <Compile Include="IDisposableCommand.cs" />
     <Compile Include="Markup\RootViewModelBindingExtension.cs" />
     <Compile Include="Behaviors\SharedResourceBehavior.cs" />
     <Compile Include="NotifyProperyChangedExtensions.cs" />
