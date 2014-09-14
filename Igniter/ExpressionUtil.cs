@@ -14,7 +14,7 @@ namespace Igniter
 
             var propertyInfo = memberExpr.Member as PropertyInfo;
 
-            if (propertyInfo == null || propertyInfo.DeclaringType != typeof(TSource))
+            if (propertyInfo == null || propertyInfo.DeclaringType != null && propertyInfo.DeclaringType.IsAssignableFrom(typeof(TSource)))
                 throw new ArgumentException("must yield a single property on the given object", "propertySelector");
 
             return propertyInfo.Name;
