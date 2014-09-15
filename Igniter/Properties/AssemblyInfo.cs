@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Windows.Markup;
 
@@ -14,3 +15,5 @@ using System.Windows.Markup;
 [assembly: XmlnsDefinition("http://schemas.northhorizon.net/igniter", "Igniter.Markup")]
 [assembly: XmlnsDefinition("http://schemas.northhorizon.net/igniter", "Igniter.Behaviors")]
 [assembly: XmlnsDefinition("http://schemas.northhorizon.net/igniter", "Igniter.Composition")]
+
+[assembly: InternalsVisibleTo("Igniter.Tests")]
