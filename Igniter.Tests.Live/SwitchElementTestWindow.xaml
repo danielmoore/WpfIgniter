@@ -4,8 +4,8 @@
         xmlns:system="clr-namespace:System;assembly=mscorlib"
         xmlns:live="clr-namespace:Igniter.Tests.Live"
         xmlns:ign="http://schemas.northhorizon.net/igniter"
-        Title="SwitchElementTestWindow" Height="300" Width="300">
-    <StackPanel>
+        Title="SwitchElementTestWindow" Height="300" Width="300" Foreground="White">
+    <StackPanel DataContext="Test">
         <ComboBox Name="StringComboBox">
             <system:String>first</system:String>
             <system:String>second</system:String>
@@ -13,10 +13,10 @@
             <system:String>fourth</system:String>
         </ComboBox>
         <ign:SwitchElement On="{Binding SelectedItem, ElementName=StringComboBox}" Height="20">
-            <Border ign:SwitchElement.When="first" Background="Black"/>
-            <Border ign:SwitchElement.When="second" Background="Red"/>
-            <Border ign:SwitchElement.When="third" Background="Blue"/>
-            <Border Background="Green"/>
+            <Border ign:SwitchElement.When="first" Background="Black"><TextBlock Text="{Binding}"/></Border>
+            <Border ign:SwitchElement.When="second" Background="Red"><TextBlock Text="{Binding}"/></Border>
+            <Border ign:SwitchElement.When="third" Background="Blue"><TextBlock Text="{Binding}"/></Border>
+            <Border Background="Green"><TextBlock Text="{Binding}"/></Border>
         </ign:SwitchElement>
         <ComboBox Name="EnumComboBox">
             <live:TestEnum>First</live:TestEnum>
@@ -25,10 +25,10 @@
             <live:TestEnum>Fourth</live:TestEnum>
         </ComboBox>
         <ign:SwitchElement On="{Binding SelectedItem, ElementName=EnumComboBox}" Height="20">
-            <Border ign:SwitchElement.When="First" Background="Black"/>
-            <Border ign:SwitchElement.When="Second" Background="Red"/>
-            <Border ign:SwitchElement.When="Third" Background="Blue"/>
-            <Border Background="Green"/>
+            <Border ign:SwitchElement.When="First" Background="Black"><TextBlock Text="{Binding}"/></Border>
+            <Border ign:SwitchElement.When="Second" Background="Red"><TextBlock Text="{Binding}"/></Border>
+            <Border ign:SwitchElement.When="Third" Background="Blue"><TextBlock Text="{Binding}"/></Border>
+            <Border Background="Green"><TextBlock Text="{Binding}"/></Border>
         </ign:SwitchElement>
         <ComboBox Name="IntComboBox">
             <system:Int32>1</system:Int32>
@@ -37,23 +37,23 @@
             <system:Int32>4</system:Int32>
         </ComboBox>
         <ign:SwitchElement On="{Binding SelectedItem, ElementName=IntComboBox}" Height="20">
-            <Border ign:SwitchElement.When="1" Background="Black"/>
-            <Border ign:SwitchElement.When="2" Background="Red"/>
-            <Border ign:SwitchElement.When="3" Background="Blue"/>
-            <Border Background="Green"/>
+            <Border ign:SwitchElement.When="1" Background="Black"><TextBlock Text="{Binding}"/></Border>
+            <Border ign:SwitchElement.When="2" Background="Red"><TextBlock Text="{Binding}"/></Border>
+            <Border ign:SwitchElement.When="3" Background="Blue"><TextBlock Text="{Binding}"/></Border>
+            <Border Background="Green"><TextBlock Text="{Binding}"/></Border>
         </ign:SwitchElement>
         <ign:SwitchElement On="{Binding SelectedItem, ElementName=StringComboBox}" Height="20">
             <ign:SwitchElement When="first" On="{Binding SelectedItem, ElementName=EnumComboBox}">
-                <Border ign:SwitchElement.When="First" Background="Black"/>
-                <Border ign:SwitchElement.When="Second" Background="Red"/>
-                <Border ign:SwitchElement.When="Third" Background="Blue"/>
-                <Border Background="Green"/>
+                <Border ign:SwitchElement.When="First" Background="Black"><TextBlock Text="{Binding}"/></Border>
+                <Border ign:SwitchElement.When="Second" Background="Red"><TextBlock Text="{Binding}"/></Border>
+                <Border ign:SwitchElement.When="Third" Background="Blue"><TextBlock Text="{Binding}"/></Border>
+                <Border Background="Green"><TextBlock Text="{Binding}"/></Border>
             </ign:SwitchElement>
             <ign:SwitchElement On="{Binding SelectedItem, ElementName=IntComboBox}">
-                <Border ign:SwitchElement.When="1" Background="DarkTurquoise"/>
-                <Border ign:SwitchElement.When="2" Background="Indigo"/>
-                <Border ign:SwitchElement.When="3" Background="Gold"/>
-                <Border Background="Green"/>
+                <Border ign:SwitchElement.When="1" Background="DarkTurquoise"><TextBlock Text="{Binding}"/></Border>
+                <Border ign:SwitchElement.When="2" Background="Indigo"><TextBlock Text="{Binding}"/></Border>
+                <Border ign:SwitchElement.When="3" Background="Gold"><TextBlock Text="{Binding}"/></Border>
+                <Border Background="Green"><TextBlock Text="{Binding}"/></Border>
             </ign:SwitchElement>
         </ign:SwitchElement>
     </StackPanel>

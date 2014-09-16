@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Markup;
 using System.Windows.Media;
+using Igniter.Behaviors;
 using Igniter.Core;
 
 namespace Igniter.Controls
@@ -22,7 +26,7 @@ namespace Igniter.Controls
 
         public SwitchElement()
         {
-            Cases = new List<FrameworkElement>();
+            Cases = new ObservableCollection<FrameworkElement>();
 
             _caseEvaluator = new SwitchCaseEvaluator(this, Cases);
             _caseEvaluator.CaseSelected += OnCaseSelected;
@@ -43,17 +47,49 @@ namespace Igniter.Controls
         {
             base.EndInit();
 
-            foreach(var @case in Cases)
+            foreach (var @case in Cases)
                 AddLogicalChild(@case);
 
-           _caseEvaluator.EndInit();
+            _caseEvaluator.EndInit();
+
+            Cases.CollectionChanged += OnCasesChanged;
+        }
+
+        private void OnCasesChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            switch (e.Action)
+            {
+                case NotifyCollectionChangedAction.Add:
+                case NotifyCollectionChangedAction.Remove:
+                case NotifyCollectionChangedAction.Replace:
+                    if (e.OldItems != null)
+                        foreach (var item in e.OldItems)
+                            RemoveLogicalChild(item);
+
+                    if (e.NewItems != null)
+                        foreach (var item in e.NewItems)
+                            AddLogicalChild(item);
+
+                    break;
+                case NotifyCollectionChangedAction.Reset:
+                    foreach (var @case in Cases)
+                        if (!ReferenceEquals(@case.Parent, this))
+                            AddLogicalChild(@case);
+                    break;
+                case NotifyCollectionChangedAction.Move:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            _caseEvaluator.Refresh();
         }
 
         #region FrameworkElement ResolvedView { get; private set; }
 
         private static readonly DependencyPropertyKey ResolvedViewPropertyKey =
             DependencyProperty.RegisterReadOnly("ResolvedView", typeof(FrameworkElement), typeof(SwitchElement),
-            new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsMeasure, OnResolvedViewPropertyChanged));
+                new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsMeasure, OnResolvedViewPropertyChanged));
 
         /// <summary>
         /// Identifies the <see cref="ResolvedView"/> dependency property.
@@ -80,6 +116,7 @@ namespace Igniter.Controls
             {
                 RemoveVisualChild(oldValue);
             }
+
 
             if (newValue != null)
             {
@@ -133,7 +170,7 @@ namespace Igniter.Controls
         /// Identifies the <see cref="When"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty WhenProperty =
-           SwitchCaseEvaluator.WhenProperty.AddOwner(typeof(SwitchElement));
+            SwitchCaseEvaluator.WhenProperty.AddOwner(typeof(SwitchElement));
 
         /// <summary>
         /// Gets the When.
@@ -157,7 +194,7 @@ namespace Igniter.Controls
 
         #endregion
 
-        public List<FrameworkElement> Cases { get; private set; }
+        public ObservableCollection<FrameworkElement> Cases { get; private set; }
 
         public void AddChild(object value)
         {
@@ -215,5 +252,9 @@ namespace Igniter.Controls
             return resolvedView;
         }
 
+        protected override IEnumerator LogicalChildren
+        {
+            get { return Cases.GetEnumerator(); }
+        }
     }
 }

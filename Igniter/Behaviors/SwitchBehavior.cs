@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Interactivity;
@@ -16,13 +18,13 @@ namespace Igniter.Behaviors
 
         public SwitchBehavior()
         {
-            Cases = new List<SwitchBehaviorCase>();
+            Cases = new ObservableCollection<SwitchBehaviorCase>();
             _caseEvaluator = new SwitchCaseEvaluator(this, Cases);
 
             _caseEvaluator.CaseSelected += OnCaseSelected;
         }
 
-        public List<SwitchBehaviorCase> Cases { get; private set; }
+        public ObservableCollection<SwitchBehaviorCase> Cases { get; private set; }
 
         #region object On { get; set; }
 
@@ -79,10 +81,44 @@ namespace Igniter.Behaviors
                 @case.OwningSwitchBehavior = this;
 
             _caseEvaluator.EndInit();
+
+            Cases.CollectionChanged += OnCasesChanged;
+        }
+
+        private void OnCasesChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            switch (e.Action)
+            {
+                case NotifyCollectionChangedAction.Add:
+                case NotifyCollectionChangedAction.Remove:
+                case NotifyCollectionChangedAction.Replace:
+                    if (e.OldItems != null)
+                        foreach (var item in e.OldItems)
+                            ((SwitchBehaviorCase)item).OwningSwitchBehavior = null;
+
+                    if (e.NewItems != null)
+                        foreach (var item in e.NewItems)
+                            ((SwitchBehaviorCase)item).OwningSwitchBehavior = this;
+
+                    break;
+                case NotifyCollectionChangedAction.Reset:
+                    foreach (var @case in Cases)
+                        @case.OwningSwitchBehavior = this;
+
+                    break;
+
+                case NotifyCollectionChangedAction.Move:
+                    break;
+
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            _caseEvaluator.Refresh();
         }
 
         public void AddChild(object value)
-        { 
+        {
             if (value == null)
                 throw new ArgumentNullException("value");
 

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
@@ -12,12 +14,11 @@ namespace Igniter.Core
     {
         private readonly DependencyObject _host;
 
-        private readonly IEnumerable<DependencyObject> _hostCases;
-
         private static readonly object NotCompatible = new object();
         private static readonly object NotDetermined = new object();
 
-        private DependencyObject[] _cases;
+        private readonly IEnumerable<DependencyObject> _source;
+        private IList<DependencyObject> _cases;
         private object[] _convertedValues;
         private IEqualityComparer _effectivEqualityComparer = NullEqualityComparer.Instance;
         private Type _targetType;
@@ -29,8 +30,11 @@ namespace Igniter.Core
 
         public SwitchCaseEvaluator(DependencyObject host, IEnumerable<DependencyObject> cases)
         {
+            if (host == null) throw new ArgumentNullException("host");
+            if (cases == null) throw new ArgumentNullException("cases");
+
             _host = host;
-            _hostCases = cases;
+            _source = cases;
         }
 
         private void OnCaseSelected(DependencyObject @case)
@@ -42,16 +46,20 @@ namespace Igniter.Core
 
         public void EndInit()
         {
-            _cases = _hostCases.ToArray();
-
-            _convertedValues = new object[_cases.Length];
-            
             SetEvaluatorOnHost(_host, this);
 
+            Refresh();
+        }
+
+        public void Refresh()
+        {
+            _cases = new List<DependencyObject>(_source);
+            _convertedValues = new object[_cases.Count];
+            
             SetTargetType(GetOn(_host));
             UpdateEffectiveEqualityComparer();
 
-            for (int i = 0; i < _cases.Length; i++)
+            for (int i = 0; i < _cases.Count; i++)
             {
                 SetEvaluatorOnCase(_cases[i], this);
                 SetCaseIndex(_cases[i], i);
@@ -85,7 +93,7 @@ namespace Igniter.Core
         {
             if (obj == null) throw new ArgumentNullException("obj");
 
-            return (object)obj.GetValue(OnProperty);
+            return obj.GetValue(OnProperty);
         }
 
         /// <summary>
@@ -319,7 +327,7 @@ namespace Igniter.Core
                     !_effectivEqualityComparer.Equals(On, convertedValue))
                     return false;
             }
-            else if (caseIndex < _cases.Length - 1)
+            else if (caseIndex < _cases.Count - 1)
                 return false; // only the last case may have no When
             // else case is default
 
@@ -334,7 +342,7 @@ namespace Igniter.Core
 
             int i;
             bool found = false;
-            for (i = startIndex; i < _cases.Length; i++)
+            for (i = startIndex; i < _cases.Count; i++)
             {
                 if (clearCache)
                     _convertedValues[i] = NotDetermined;
@@ -344,7 +352,7 @@ namespace Igniter.Core
             }
 
             if (clearCache)
-                for (; i < _cases.Length; i++)
+                for (; i < _cases.Count; i++)
                     _convertedValues[i] = NotDetermined;
 
             if (!found)
