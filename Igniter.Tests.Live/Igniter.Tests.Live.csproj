@@ -90,6 +90,10 @@
     <Compile Include="DirectoryResourcesBehaviorTestWindow.xaml.cs">
       <DependentUpon>DirectoryResourcesBehaviorTestWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ItemPositionTestWindow.xaml.cs">
+      <DependentUpon>ItemPositionTestWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ItemPositionViewModel.cs" />
     <Compile Include="SharedResourceBehaviorTestWindow.xaml.cs">
       <DependentUpon>SharedResourceBehaviorTestWindow.xaml</DependentUpon>
     </Compile>
@@ -131,6 +135,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="DirectoryResourcesBehaviorTestWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ItemPositionTestWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

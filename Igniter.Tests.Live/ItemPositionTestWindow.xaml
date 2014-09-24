@@ -1,0 +1,73 @@
+﻿<Window x:Class="Igniter.Tests.Live.ItemPositionTestWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ign="http://schemas.northhorizon.net/igniter"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        Title="ItemPositionTestWindow" Height="300" Width="300">
+    <Window.Resources>
+        <DataTemplate x:Key="ItemTemplate">
+            <TextBlock x:Name="DisplayTextBlock" Text="{Binding}"/>
+            <DataTemplate.Triggers>
+                <Trigger Property="ign:ItemPositionBehavior.IsFirst" Value="True">
+                    <Setter TargetName="DisplayTextBlock" Property="Background" Value="DarkOliveGreen"/>
+                </Trigger>
+                <Trigger Property="ign:ItemPositionBehavior.IsLast" Value="True">
+                    <Setter TargetName="DisplayTextBlock" Property="Background" Value="IndianRed"/>
+                </Trigger>
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="ign:ItemPositionBehavior.IsFirst" Value="True"/>
+                        <Condition Property="ign:ItemPositionBehavior.IsLast" Value="True"/>
+                    </MultiTrigger.Conditions>
+
+                    <Setter TargetName="DisplayTextBlock" Property="Background" Value="CadetBlue"/>
+                </MultiTrigger>
+            </DataTemplate.Triggers>
+        </DataTemplate>
+        
+        <ControlTemplate x:Key="GroupItemTemplate" TargetType="GroupItem">
+            <Expander x:Name="Expander">
+                <Expander.Header>
+                    <TextBlock Name="DisplayTextBlock" Text="{Binding Name}"/>
+                </Expander.Header>
+                <ItemsPresenter/>
+            </Expander>
+
+            <ControlTemplate.Triggers>
+                <Trigger Property="ign:ItemPositionBehavior.IsFirst" Value="True">
+                    <Setter TargetName="DisplayTextBlock" Property="Background" Value="DarkOliveGreen"/>
+                </Trigger>
+                <Trigger Property="ign:ItemPositionBehavior.IsLast" Value="True">
+                    <Setter TargetName="DisplayTextBlock" Property="Background" Value="IndianRed"/>
+                </Trigger>
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="ign:ItemPositionBehavior.IsFirst" Value="True"/>
+                        <Condition Property="ign:ItemPositionBehavior.IsLast" Value="True"/>
+                    </MultiTrigger.Conditions>
+
+                    <Setter TargetName="DisplayTextBlock" Property="Background" Value="CadetBlue"/>
+                </MultiTrigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+        
+        <Style x:Key="GroupStyle" TargetType="GroupItem">
+            <Setter Property="Template" Value="{StaticResource GroupItemTemplate}"/>
+        </Style>
+    </Window.Resources>
+    <UniformGrid Rows="1">
+        <ItemsControl ItemsSource="{Binding SimpleList}" ItemTemplate="{StaticResource ItemTemplate}">
+            <i:Interaction.Behaviors>
+                <ign:ItemPositionBehavior/>
+            </i:Interaction.Behaviors>
+        </ItemsControl>
+        <ItemsControl ItemsSource="{Binding GroupedList}" ItemTemplate="{StaticResource ItemTemplate}">
+            <ItemsControl.GroupStyle>
+                <GroupStyle ContainerStyle="{StaticResource GroupStyle}"/>
+            </ItemsControl.GroupStyle>
+            <i:Interaction.Behaviors>
+                <ign:ItemPositionBehavior/>
+            </i:Interaction.Behaviors>
+        </ItemsControl>
+    </UniformGrid>
+</Window>
