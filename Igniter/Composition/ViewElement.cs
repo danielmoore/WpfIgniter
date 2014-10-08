@@ -1,7 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Threading;
 
@@ -148,7 +148,6 @@ namespace Igniter.Composition
         {
             ((ViewElement)sender).OnResolvedViewPropertyChanged((FrameworkElement)e.OldValue, (FrameworkElement)e.NewValue);
         }
-
 
         private void OnResolvedViewPropertyChanged(FrameworkElement oldValue, FrameworkElement newValue)
         {
@@ -374,6 +373,16 @@ namespace Igniter.Composition
                 throw new ArgumentOutOfRangeException();
 
             return resolvedView;
+        }
+        
+        protected override IEnumerator LogicalChildren
+        {
+            get
+            {
+                var view = ResolvedView;
+                if (view != null)
+                    yield return view;
+            }
         }
 
         private abstract class ViewComponentPropertyMetadata : PropertyMetadata
