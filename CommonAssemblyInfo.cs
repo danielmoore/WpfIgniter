@@ -1,6 +1,4 @@
 ﻿using System.Reflection;
-using System.Runtime.InteropServices;
-using System.Windows.Markup;
 
 [assembly: AssemblyProduct("Igniter")]
 [assembly: AssemblyConfiguration("Release")]
@@ -8,5 +6,6 @@ using System.Windows.Markup;
 [assembly: AssemblyCopyright("Copyright © Daniel Moore 2014")]
 [assembly: AssemblyCulture("")] // main (not satellite) assembly, no culture. 
 
-[assembly: AssemblyVersion("2.2.2")]
+[assembly: AssemblyVersion("2.3.0")]
+[assembly: AssemblyInformationalVersion("2.3.0-beta-4")]
 
