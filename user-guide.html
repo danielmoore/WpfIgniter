@@ -33,13 +33,15 @@
     registerHighlighter('xml', 'xml');
     registerHighlighter('xaml', 'xml');
 
-    $('body').on('flatdoc:ready', function () {
-      $.anchorjump(document.location.hash);
-    });
+    $(function() {
+      $('body').on('flatdoc:ready', function () {
+        $.anchorjump(document.location.hash);
+      });
 
-    Flatdoc.run({
-      fetcher: Flatdoc.github('danielmoore/WpfIgniter', 'user-guide.md')
-    });
+      Flatdoc.run({
+        fetcher: Flatdoc.github('danielmoore/WpfIgniter', 'user-guide.md')
+      });
+    })
 
     function registerHighlighter(lang, hljsLang) {
       Flatdoc.highlighters[lang] = function(code) {
