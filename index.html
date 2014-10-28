@@ -33,6 +33,9 @@
     registerHighlighter('xml', 'xml');
     registerHighlighter('xaml', 'xml');
 
+    $('body').on('flatdoc:ready', function () {
+      $.anchorjump(document.location.hash);
+    });
 
     Flatdoc.run({
       fetcher: Flatdoc.github('danielmoore/WpfIgniter')
