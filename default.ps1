@@ -22,9 +22,10 @@ task Update-CompiledVersion {
     Write-Host "Setting compiled version to '$($Script:version)'"
 
     Expand-Template $asmInfoTemplatePath {
-        $version = $Script:version
-		
-		$dotNetVersion = ($version -split '-')[0]
+        $version = [pscustomobject]@{
+            full = $Script:version
+		    compat = ($version -split '-')[0]
+        }
     }
 }
 

@@ -4,7 +4,7 @@ using System.Reflection;
 [assembly: AssemblyConfiguration("$buildConfiguration")]
 [assembly: AssemblyCompany("North Horizon")]
 [assembly: AssemblyCopyright("Copyright © Daniel Moore $((Get-Date).Year)")]
-[assembly: AssemblyCulture("")] // main (not satellite) assembly, no culture. 
+[assembly: AssemblyCulture("")] // main (not satellite) assembly, no culture.
 
-[assembly: AssemblyVersion("$($version.Substring(0, $version.IndexOf('-')))")]
-[assembly: AssemblyInformationalVersion("$version")]
+[assembly: AssemblyVersion("$($version.compat)")]
+[assembly: AssemblyInformationalVersion("$($version.full)")]
