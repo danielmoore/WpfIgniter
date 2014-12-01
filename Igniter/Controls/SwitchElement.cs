@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Markup;
 using System.Windows.Media;
 using Igniter.Core;
@@ -43,10 +42,10 @@ namespace Igniter.Controls
         {
             base.EndInit();
 
-            foreach(var @case in Cases)
+            foreach (var @case in Cases)
                 AddLogicalChild(@case);
 
-           _caseEvaluator.EndInit();
+            _caseEvaluator.EndInit();
         }
 
         #region FrameworkElement ResolvedView { get; private set; }
@@ -215,5 +214,9 @@ namespace Igniter.Controls
             return resolvedView;
         }
 
+        protected override IEnumerator LogicalChildren
+        {
+            get { return Cases.GetEnumerator(); }
+        }
     }
 }
