@@ -35,5 +35,6 @@
     <file src="build\Igniter.dll.config" target="lib\net40-client\Igniter.dll.config" />
     <file src="build\Igniter.pdb" target="lib\net40-client\Igniter.pdb" />
     <file src="build\Igniter.xml" target="lib\net40-client\Igniter.xml" />
+    <file src="dist-tools\Optimize-PathData.ps1" target="tools\Optimize-PathData.ps1" />
   </files>
 </package>
