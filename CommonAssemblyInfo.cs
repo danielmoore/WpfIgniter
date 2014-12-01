@@ -6,6 +6,6 @@
 [assembly: AssemblyCopyright("Copyright © Daniel Moore 2014")]
 [assembly: AssemblyCulture("")] // main (not satellite) assembly, no culture.
 
-[assembly: AssemblyVersion("2.3.0")]
-[assembly: AssemblyInformationalVersion("2.3.0")]
+[assembly: AssemblyVersion("2.3.1")]
+[assembly: AssemblyInformationalVersion("2.3.1")]
 
