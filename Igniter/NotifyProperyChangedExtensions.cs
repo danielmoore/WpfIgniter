@@ -55,7 +55,7 @@ namespace Igniter
         {
             if (source == null) throw new ArgumentNullException("source");
             if (propertySelector == null) throw new ArgumentNullException("propertySelector");
-            if (onChanging == null) throw new ArgumentNullException("onChanged");
+            if (onChanging == null) throw new ArgumentNullException("onChanging");
 
             var subscribedPropertyName = ExpressionUtil.GetPropertyName(propertySelector);
 
